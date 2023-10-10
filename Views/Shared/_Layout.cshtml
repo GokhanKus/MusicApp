@@ -10,7 +10,6 @@
 </head>
 <body>
     <header>
-        @*navbar*@
         @await Html.PartialAsync("_navbar") @* navbar icin yeni ve bos bir view dosyası olusturmustuk ve onu bu sekilde cagiriyoruz  *@
         @RenderSection("header",false) @*render section araccılığıyla index.cshtml'de yani sadece anasayfada header (jumbotron) olusturduk.*@
     </header>
