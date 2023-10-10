@@ -1,5 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
+//sql conn string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<SongContext>(options =>
+	options.UseSqlServer(connectionString));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

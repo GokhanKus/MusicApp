@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MusicApp.Data;
 using MusicApp.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,19 @@ namespace MusicApp.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-
-		public HomeController(ILogger<HomeController> logger)
+		private readonly SongContext _context;
+        public HomeController(SongContext songContext)
+        {
+			_context = songContext; //injection islemi
+        }
+        public IActionResult Index()
 		{
-			_logger = logger;
-		}
-
-		public IActionResult Index()
-		{
-			return View();
+			
+			var model = new HomePageViewModel
+			{
+				PopularSongs = _context.Songs.ToList()
+			};
+			return View(model);
 		}
 
 		public IActionResult Privacy()
@@ -28,5 +32,13 @@ namespace MusicApp.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
+
+
+		//private readonly ILogger<HomeController> _logger;
+		//public HomeController(ILogger<HomeController> logger)
+		//{
+		//	_logger = logger;
+		//}
+
 	}
 }
