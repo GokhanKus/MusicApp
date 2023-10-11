@@ -1,0 +1,17 @@
+﻿@* liste(kategoriya da menu) ekleyelim, liste icin yeni ve bir view dosyası olusturduk (Partial View)*@
+@model List<Genre>
+<div class="list-group">
+	<a href="/songs/list"
+	   class="list-group-item list-group-item-action @(ViewBag.SelectedGenre==null?"active":"")">
+		All Songs
+	</a>
+
+	@foreach (var genre in Model)
+	{
+		<a href="/songs/list/@genre.GenreId"
+		   class="list-group-item list-group-item-action @(ViewBag.SelectedGenre==genre.GenreId.ToString()?"active":"")">
+			@genre.Name
+		</a>
+	}
+</div>
+@* //secilen film türünün isaretlenmesi(background mavi olsun mesela) foreachteki action yanı*@

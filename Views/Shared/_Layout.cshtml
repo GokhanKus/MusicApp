@@ -1,27 +1,51 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MusicApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MusicApp.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - MusicApp</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/MusicApp.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        @await Html.PartialAsync("_navbar") @* navbar icin yeni ve bos bir view dosyası olusturmustuk ve onu bu sekilde cagiriyoruz  *@
-        @RenderSection("header",false) @*render section araccılığıyla index.cshtml'de yani sadece anasayfada header (jumbotron) olusturduk.*@
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<header>
+		@await Html.PartialAsync("_navbar") @* navbar icin yeni ve bos bir view dosyası olusturmustuk ve onu bu sekilde cagiriyoruz  *@
+		@RenderSection("header",false) @*render section araccılığıyla index.cshtml'de yani sadece anasayfada header (jumbotron) olusturduk.*@
+	</header>
+	<div class="container mt-5">  @*mt-3: genre listesi ve sayfa elemanları biraz asagıda olsun*@
+		<main role="main" class="pb-3">
+		@if (IsSectionDefined("_genrelist"))
+		{
+			<div class="row">
+				<div class="col-md-3">
+						<h2>Genres</h2>
+					@RenderSection("_genrelist",false)
+				</div>
+				<div class="col-md-9">
+					
+						@RenderBody()
+					
+				</div>
+			</div>
+		}
+		else
+		{
+			@*eger bir html sayfasında menu adında bir section tanımlanmadıysa mesela anasayfada yok, o zaman menu kısmı olusmasın ve 12 bölmeli olsun, 3e9luk degil*@
+			{
+				<div class="row">
+					<div class="col-md-12">
+						@RenderBody()
+					</div>
+				</div>
+			}
+			}
+		</main>
+	</div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

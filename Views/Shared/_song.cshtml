@@ -1,10 +1,30 @@
 ﻿@model Song
+
+
 <div class="col">
 	<div class="card">
 		<img src="/img/@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
 		<div class="card-body">
-			<h5 class="card-title">Card title</h5>
-			<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			<h5 class="card-title">@Model.Name</h5>
+			<p class="card-text">@Model.Description This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 		</div>
 	</div>
 </div>
+
+
+@* <div class="col">
+	<div class="card mb-3">
+		<div class="row">
+			<div class="col-md-4">
+				<img src="/img/@Model.ImageUrl" class="img-fluid" alt="@Model.Name">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title">@Model.Name</h5>
+					<p class="card-text">@Model.Description This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+					<a></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>  *@
