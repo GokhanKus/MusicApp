@@ -11,7 +11,6 @@ namespace MusicApp.Data
 			var context = scope.ServiceProvider.GetService<SongContext>();
 
 
-
 			context.Database.Migrate();
 
 			var genres = new List<Genre>

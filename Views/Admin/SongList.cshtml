@@ -1,0 +1,46 @@
+﻿@model AdminSongsViewModel
+
+<h1>Admin Song List</h1>
+
+<table class="table table-striped table-hover table-bordered">
+	<thead>
+		<tr>
+			<th style="width:30px">#</th>
+			<th style="width:130px">Image</th>
+			<th style ="width:180px">Name</th>
+			<th>Description</th>
+			<th style="width:130px">Release Date</th>
+			<th style="width:180px">Genres</th>
+			<th style="width:160px"></th>	
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var song in Model.Songs)
+		{
+			<tr>
+				<td>@song.SongId</td>
+				<td><img src="~/img/@song.ImageUrl" width ="130" height="130"/></td>
+				<td>@song.Name</td>
+				<td>@song.Description</td>
+				<td>@song.ReleaseDate</td>
+				<td>
+					<ul>
+						@foreach (var genre in song.Genres)
+						{
+							<li>@genre.Name</li>
+						}
+					</ul>
+				</td>
+				<td>
+					<a asp-controller="admin" asp-action="songlist/@song.SongId" class="btn btn-primary btn-sm">Update</a>
+
+					<form asp-controller="admin" asp-action="songdelete" method="post" style="display: inline">
+						<input type="hidden" name="movieId" value="@song.SongId" />
+						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>
+
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

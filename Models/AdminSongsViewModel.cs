@@ -10,15 +10,17 @@ namespace MusicApp.Models
 	{
 		public int SongId { get; set; }
 		public string Name { get; set; }
-		public string Description { get; set; }
-		public string ImageUrl { get; set; }
+		public string? Description { get; set; }
+		public string? ImageUrl { get; set; }
 		public List<Genre> Genres { get; set; } //many to many relation with Genre
+		public int ReleaseDate { get; set; }
 	}
 	public class AdminCreateSongModel
 	{
 		public string Name { get; set; }
-		public string Description { get; set; }
+		public string? Description { get; set; }
 		public int[] GenreIds { get; set; }
-		public DateTime ReleaseDate { get; set; } = DateTime.Now;
+		public int ReleaseDate { get; set; } 
+
 	}
 }

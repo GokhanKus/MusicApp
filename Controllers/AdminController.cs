@@ -39,30 +39,33 @@ namespace MusicApp.Controllers
 			{
 				Name = model.Name,
 				Description = model.Description,
+				ReleaseDate = model.ReleaseDate,
 				ImageUrl = "No_Image.jpg"
 			};
+
 			foreach (var id in model.GenreIds)
 			{
 				entity.Genres.Add(_context.Genres.FirstOrDefault(i => i.GenreId == id));
 			}
+
 			_context.Songs.Add(entity);
 			_context.SaveChanges();
 
-			//return RedirectToAction("SongList");
-			return View();
+			return RedirectToAction("SongList");
 		}
 		public IActionResult SongList()
 		{
 			var model = new AdminSongsViewModel
 			{
-				Songs = _context.Songs  
-				.Include(s => s.Genres)						//Include() metodunu yazarak songs'un genre bilgilerini aldık left join yaptık
+				Songs = _context.Songs
+				.Include(s => s.Genres)                     //Include() metodunu yazarak songs'un genre bilgilerini aldık left join yaptık
 				.Select(s => new AdminSongViewModel
 				{
-					SongId=s.SongId,
+					SongId = s.SongId,
 					Name = s.Name,
-					Description= s.Description,
-					ImageUrl= s.ImageUrl,
+					ReleaseDate = s.ReleaseDate,
+					Description = s.Description,
+					ImageUrl = s.ImageUrl,
 					Genres = s.Genres.ToList()
 				}).ToList()
 			};
