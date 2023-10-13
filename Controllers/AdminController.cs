@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using MusicApp.Data;
 using MusicApp.Entity;
 using MusicApp.Models;
+using System.IO;
+using System.Threading;
+using static System.Net.WebRequestMethods;
+
 
 namespace MusicApp.Controllers
 {
@@ -95,29 +99,28 @@ namespace MusicApp.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[]genreIds, IFormFile file)
 		{
-			var entity = _context.Songs.Find(model.SongId);
+			var entity = _context.Songs.Include("Genres").FirstOrDefault(s=>s.SongId == model.SongId);
 			if (entity == null) return NotFound();
 
 			entity.Name = model.Name;
 			entity.Description = model.Description;
 			entity.ReleaseDate = model.ReleaseDate;
 				
-			if (file != null)																					//image bilgisi var mı?
+			if (file != null)																						//image bilgisi var mı?
 			{				
-				var extension = Path.GetExtension(file.FileName);												//resimin uzantı bilgisini aldık (jpg,jpeg,png,etc)
-				var fileName = string.Format($"{Guid.NewGuid()}{extension}");									//burası bize eşsiz bir image name verir
-				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img\\", fileName);			//ana dizin yolu C:\ASP.NET_Projects\MusicApp\wwwroot\img\ornekresim.jpg olur.
+				var extension = Path.GetExtension(file.FileName);													//resimin uzantı bilgisini aldık (jpg,jpeg,png,etc)
+				var fileName = string.Format($"{Guid.NewGuid()}{extension}");										//burası bize eşsiz bir image name verir
+				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img\\", fileName);				//ana dizin yolu C:\ASP.NET_Projects\MusicApp\wwwroot\img\ornekresim.jpg olur.
 				entity.ImageUrl = fileName;
-
-																																//using ifadesi: using ifadesi, IDisposable arabirimine sahip nesnelerin kullanıldıktan sonra temizlenmesi için kullanılır. Bu ifade ile belirtilen nesneler kod bloğundan çıktıktan sonra otomatik olarak kapatılır ve kaynaklar serbest bırakılır.
-				using (var stream = new FileStream(path, FileMode.Create)) //using kullanarak nesne ile isimiz bitince bellekten silinsin
+					//using kullanarak nesne ile isimiz bitince bellekten silinsin																							//using ifadesi: using ifadesi, IDisposable arabirimine sahip nesnelerin kullanıldıktan sonra temizlenmesi için kullanılır. Bu ifade ile belirtilen nesneler kod bloğundan çıktıktan sonra otomatik olarak kapatılır ve kaynaklar serbest bırakılır.
+				using (var stream = new FileStream(path, FileMode.Create)) 
 				{
 					//file.CopyTo(stream); //senkron versiyonu
-					await file.CopyToAsync(stream);                                                             //async oldugu icin dosyanın kaydedilmesini bekliyor olmalı (await) bu cs'nin en altında detaylı bilgi var
+					await file.CopyToAsync(stream);																	//async oldugu icin dosyanın kaydedilmesini bekliyor olmalı (await) bu cs'nin en altında detaylı bilgi var
 				}
 			}
 
-			entity.Genres = genreIds.Select(id => _context.Genres.FirstOrDefault(i => i.GenreId == id)).ToList(); //genreIdse gelen id'ler ile genres db'deki idlerden eşlesenleri liste olarak döndürür
+			entity.Genres = genreIds.Select(id => _context.Genres.FirstOrDefault(i => i.GenreId == id)).ToList();	//genreIdse gelen id'ler ile genres db'deki idlerden eşlesenleri liste olarak döndürür
 
 			_context.SaveChanges();
 			return RedirectToAction("SongList");
