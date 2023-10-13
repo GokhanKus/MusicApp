@@ -32,10 +32,11 @@
 					</ul>
 				</td>
 				<td>
-					<a asp-controller="admin" asp-action="songlist/@song.SongId" class="btn btn-primary btn-sm">Update</a>
 
-					<form asp-controller="admin" asp-action="songdelete" method="post" style="display: inline">
-						<input type="hidden" name="movieId" value="@song.SongId" />
+					<a asp-controller="admin" asp-action="updatesong" asp-route-id="@song.SongId" class="btn btn-primary btn-sm">Update</a>
+					
+					<form asp-controller="admin" asp-action="removesong" method="post" style="display: inline">
+						<input type="hidden" name="songId" value="@song.SongId" />
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
 					</form>
 

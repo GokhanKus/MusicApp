@@ -71,5 +71,82 @@ namespace MusicApp.Controllers
 			};
 			return View(model);
 		}
+
+		public IActionResult UpdateSong(int? id)
+		{
+			if (id == null)  return NotFound();
+				
+			var entity = _context.Songs.Select(s => new AdminEditSongModel
+			{
+				SongId = s.SongId,
+				Name = s.Name,
+				Description = s.Description,
+				ImageUrl = s.ImageUrl,
+				ReleaseDate = s.ReleaseDate,
+				GenreIds = s.Genres.Select(g=>g.GenreId).ToArray()
+			}).FirstOrDefault(s=>s.SongId == id);
+
+			ViewBag.Genres = _context.Genres.ToList();						 //bu bilgileri sayfaya taşıyalım
+
+			if (entity == null) return NotFound();
+		
+			return View(entity);
+		}
+		[HttpPost]
+		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[]genreIds, IFormFile file)
+		{
+			var entity = _context.Songs.Find(model.SongId);
+			if (entity == null) return NotFound();
+
+			entity.Name = model.Name;
+			entity.Description = model.Description;
+			entity.ReleaseDate = model.ReleaseDate;
+				
+			if (file != null)																					//image bilgisi var mı?
+			{				
+				var extension = Path.GetExtension(file.FileName);												//resimin uzantı bilgisini aldık (jpg,jpeg,png,etc)
+				var fileName = string.Format($"{Guid.NewGuid()}{extension}");									//burası bize eşsiz bir image name verir
+				var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img\\", fileName);			//ana dizin yolu C:\ASP.NET_Projects\MusicApp\wwwroot\img\ornekresim.jpg olur.
+				entity.ImageUrl = fileName;
+
+																																//using ifadesi: using ifadesi, IDisposable arabirimine sahip nesnelerin kullanıldıktan sonra temizlenmesi için kullanılır. Bu ifade ile belirtilen nesneler kod bloğundan çıktıktan sonra otomatik olarak kapatılır ve kaynaklar serbest bırakılır.
+				using (var stream = new FileStream(path, FileMode.Create)) //using kullanarak nesne ile isimiz bitince bellekten silinsin
+				{
+					//file.CopyTo(stream); //senkron versiyonu
+					await file.CopyToAsync(stream);                                                             //async oldugu icin dosyanın kaydedilmesini bekliyor olmalı (await) bu cs'nin en altında detaylı bilgi var
+				}
+			}
+
+			entity.Genres = genreIds.Select(id => _context.Genres.FirstOrDefault(i => i.GenreId == id)).ToList(); //genreIdse gelen id'ler ile genres db'deki idlerden eşlesenleri liste olarak döndürür
+
+			_context.SaveChanges();
+			return RedirectToAction("SongList");
+		}
+
+		[HttpPost]
+		public IActionResult RemoveSong(int songId)
+		{
+			var entity = _context.Songs.Find(songId);
+			if (entity != null)
+			{
+				_context.Songs.Remove(entity);
+				_context.SaveChanges();
+			}
+			return RedirectToAction("SongList");
+		}
 	}
 }
+
+
+
+
+/*
+ * file.CopyTo(stream); (Senkron Kopyalama):
+Bu kod, dosyayı senkron bir şekilde kopyalar. Senkron metotlar, işlemlerin sonuçlanmasını bekler ve işlem tamamlanana kadar diğer işlemleri bloke eder. Yani, file.CopyTo(stream); satırı çalıştırıldığında, dosyanın kopyalanması tamamlanana kadar işlem durur ve kontrol akışı bu satırda bekler.
+Bu senkron metot, küçük dosyalarla çalışırken genellikle uygun olabilir. Ancak büyük dosyalar veya ağ işlemleri gibi yavaş işlemlerle uğraşırken, senkron işlemler uygulamanın performansını düşürebilir. Bu durumda, asenkron yöntemler tercih edilir.
+
+await file.CopyToAsync(stream); (Asenkron Kopyalama):
+Bu kod, dosyayı asenkron bir şekilde kopyalar. Asenkron metotlar, işlemleri bekletmeden devam edebilen iş parçacıkları (threads) kullanarak çalışırlar. Bu nedenle, dosyanın kopyalanması işlemi devam ederken diğer işlemler çalışabilir. Asenkron yöntemler, özellikle büyük veri transferleri veya ağ işlemleri gibi yoğun işlemlerle uğraşırken uygulamanın daha duyarlı olmasını sağlayabilir.
+
+Yani, await file.CopyToAsync(stream); ifadesi, dosyanın kopyalanma işlemi tamamlanana kadar bekler, ancak beklerken diğer işlemlerin çalışmasına izin verir. Bu, uygulamanın daha etkili ve hızlı çalışmasını sağlar, çünkü asenkron işlemler bloklayıcı olmaz. Asenkron yapılar, özellikle kullanıcı arayüzüyle etkileşimli uygulamalar ve sunucu tabanlı uygulamalar gibi senkron işlem performansını etkileyebilecek durumlarda kullanışlıdır.
+ */

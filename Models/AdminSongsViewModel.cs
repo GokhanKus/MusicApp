@@ -1,4 +1,5 @@
 ﻿using MusicApp.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicApp.Models
 {
@@ -22,5 +23,14 @@ namespace MusicApp.Models
 		public int[] GenreIds { get; set; }
 		public int ReleaseDate { get; set; } 
 
+	}
+	public class AdminEditSongModel
+	{
+		public int SongId { get; set; }
+		public string Name { get; set; }
+		public string? Description { get; set; }
+		public int[] GenreIds { get; set; }
+		public int ReleaseDate { get; set; }
+		public string? ImageUrl { get; set; }
 	}
 }

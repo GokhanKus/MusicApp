@@ -1,0 +1,60 @@
+﻿@model AdminEditSongModel
+<h1>Update Song</h1>
+<hr />
+
+<form method="post" asp-controller="admin" asp-action="updatesong">
+	<input type="hidden" name="SongId" value="@Model.SongId" />
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="mb-4 form-floating">
+
+				<input asp-for="Name" class="form-control" placeholder="Name" />
+				<label asp-for="Name">Name</label>
+			</div>
+
+			<div class="mb-4 form-floating">
+
+				<input asp-for="Description" class="form-control" placeholder="Description" />
+				<label asp-for="Description">Description</label>
+			</div>
+
+			<div class="mb-4 form-floating">
+
+				<input asp-for="ReleaseDate" class="form-control" type="number" placeholder="ReleaseDate" /> @*ay, gün ve saat bilgiler istemiyorum o yuzden sadece yıl bilgisi almak istedim type="number"*@
+				<label asp-for="ReleaseDate">ReleaseDate</label>
+			</div>
+
+			<div class="mb-3">
+				<input type="file" name="file" class="form-control" />
+			</div>
+
+			<input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />			@*resim kaybolmasın yanlıs güncellemeden dolayı (validation hatası) resim kayboluyordu*@
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+
+
+
+		<div class="col-md-4">
+
+			<h5>Genres</h5>
+
+			@foreach (var item in (List<Genre>)ViewBag.Genres)
+			{
+				<div class="form-check mb-2">
+
+					<input class="form-check-input" type="checkbox" name="GenreIds" value="@item.GenreId" id="genre_@(item.GenreId)"
+					@(Model.GenreIds != null && Model.GenreIds.Any(i => i == item.GenreId) ? "checked" : "")>
+
+					<label class="form-check-label" for="(genre_@item.GenreId)">@item.Name</label>
+				</div>
+			}
+
+			<div class="mt-3">
+				<img src="/img/@Model.ImageUrl" width="150" />
+			</div>
+
+		</div>
+
+	</div>
+</form>
