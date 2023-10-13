@@ -4,7 +4,7 @@
 <div id="songs">
 	@if (Model.Songs.Count() > 0) //film listesinin ici doluysa, film varsa;
 	{
-		<div class="row row-cols-1 row-cols-md-3 g-4">
+		<div class="row row-cols-1 row-cols-md-4 g-4">
 		@foreach (var song in Model.Songs) //model. dedigimizde songs veya genres cikiyor
 		{
 			@await Html.PartialAsync("_song",song)
