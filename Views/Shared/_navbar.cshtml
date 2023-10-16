@@ -37,9 +37,9 @@
                     <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form asp-controller="songs" asp-action="list" class="d-flex" role="search">
+                <input class="form-control me-2" name="q" type="search" placeholder="Song & Singer & Band" aria-label="Search">
+                <button class="btn btn-outline-success mr-0" type="submit">Search</button>
             </form>
         </div>
     </div>
