@@ -1,0 +1,20 @@
+body {
+    background-color: darkgray;
+}
+.list-group-item.active {
+    background-color: grey;
+    border: 1.8px solid black;
+}
+.list-group-item{
+    background-color: lightgrey;
+}
+.card {
+    border: 1.7px solid black;
+}
+.card-body {
+    background-color: #bdbdbd;
+    
+}
+img{
+    border:1.7px solid black;
+}
