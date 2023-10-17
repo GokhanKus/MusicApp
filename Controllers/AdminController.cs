@@ -96,6 +96,9 @@ namespace MusicApp.Controllers
 
 			return View(entity);
 		}
+
+		
+
 		[HttpPost]
 		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[] genreIds, IFormFile file)
 		{
@@ -137,7 +140,7 @@ namespace MusicApp.Controllers
 			}
 			return RedirectToAction("SongList");
 		}
-		
+
 		public IActionResult GenreList()
 		{
 			return View(GetGenres());
@@ -172,6 +175,33 @@ namespace MusicApp.Controllers
 				_context.SaveChanges();
 			}
 			return RedirectToAction("GenreList");
+		}
+		public IActionResult GenreUpdate(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var entity = _context.Genres
+				.Select(g => new AdminGenreEditViewModel
+			{
+				GenreId = g.GenreId,
+				Name = g.Name,
+				Songs = g.Songs.Select(i => new AdminSongViewModel
+				{
+					SongId = i.SongId,
+					Name = i.Name,
+					ImageUrl = i.ImageUrl,
+					ReleaseDate = i.ReleaseDate
+				}).ToList()
+			}).FirstOrDefault(g => g.GenreId == id);
+
+			if (entity == null)
+			{
+				return NotFound();
+			}
+
+			return View(entity);
 		}
 	}
 }

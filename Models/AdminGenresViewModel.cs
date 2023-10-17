@@ -1,5 +1,4 @@
-﻿using MusicApp.Entity;
-
+﻿
 namespace MusicApp.Models
 {
 	public class AdminGenresViewModel
@@ -13,4 +12,10 @@ namespace MusicApp.Models
         public string Name { get; set; }
         public int Count { get; set; }	
 	}
+	public class AdminGenreEditViewModel
+	{
+        public int GenreId { get; set; }
+        public string Name { get; set; }
+        public List<AdminSongViewModel> Songs { get; set; }
+    }
 }
