@@ -14,6 +14,7 @@ builder.Services.AddDbContext<SongContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+	//.AddViewOptions(options => options.HtmlHelperOptions.ClientValidationEnabled = true); client tarafýnda validation, ama ... = false yaparsan server tarafýnda validation
 
 var app = builder.Build();
 
