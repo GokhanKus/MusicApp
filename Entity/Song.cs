@@ -12,6 +12,6 @@
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
         public List<Genre> Genres { get; set; } //many to many relation with Genre
-        public int ReleaseDate { get; set; }
+        public int? ReleaseDate { get; set; }
     }
 }

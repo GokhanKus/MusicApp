@@ -30,8 +30,7 @@ namespace MusicApp.Migrations
                 name: "ReleaseDate",
                 table: "Songs",
                 type: "int",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
         }
 
         /// <inheritdoc />
