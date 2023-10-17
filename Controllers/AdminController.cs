@@ -203,6 +203,21 @@ namespace MusicApp.Controllers
 
 			return View(entity);
 		}
+		[HttpPost]
+		public IActionResult GenreUpdate(AdminGenreEditViewModel model, int[] songIds)
+		{
+			var entity = _context.Genres.Include(g => g.Songs).FirstOrDefault(i => i.GenreId == model.GenreId);
+
+			if (entity == null) return NotFound();
+
+			entity.Name = model.Name;
+			foreach (var id in songIds)
+			{
+				entity.Songs.Remove(entity.Songs.FirstOrDefault(s => s.SongId == id));
+			}
+			_context.SaveChanges();
+			return RedirectToAction("GenreList");
+		}
 	}
 }
 
