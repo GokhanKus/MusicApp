@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using MusicApp.Data;
 using MusicApp.Entity;
@@ -93,11 +94,10 @@ namespace MusicApp.Controllers
 
 			return View(entity);
 		}
-		
+
 		[HttpPost]
 		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[] genreIds, IFormFile file) //file=null demezsek şarkıyı güncelleme isleminde bizden resim istiyor, ancak biz boyle bir validation kuralı belirtmemistik.(the file field is required) 
 		{
-
 			if (ModelState.IsValid)
 			{
 				var entity = _context.Songs.Include("Genres").FirstOrDefault(s => s.SongId == model.SongId);
@@ -169,7 +169,7 @@ namespace MusicApp.Controllers
 				_context.SaveChanges();
 				return RedirectToAction("GenreList");
 			}
-			return View("GenreList",GetGenres());
+			return View("GenreList", GetGenres());
 		}
 		[HttpPost] //httppost yazmasak da çalışıyor?
 		public IActionResult GenreDelete(int genreId)
@@ -212,17 +212,21 @@ namespace MusicApp.Controllers
 		[HttpPost]
 		public IActionResult GenreUpdate(AdminGenreEditViewModel model, int[] songIds)
 		{
-			var entity = _context.Genres.Include(g => g.Songs).FirstOrDefault(i => i.GenreId == model.GenreId);
-
-			if (entity == null) return NotFound();
-
-			entity.Name = model.Name;
-			foreach (var id in songIds)
+			if (ModelState.IsValid)
 			{
-				entity.Songs.Remove(entity.Songs.FirstOrDefault(s => s.SongId == id));
+				var entity = _context.Genres.Include(g => g.Songs).FirstOrDefault(i => i.GenreId == model.GenreId);
+
+				if (entity == null) return NotFound();
+
+				entity.Name = model.Name;
+				foreach (var id in songIds)
+				{
+					entity.Songs.Remove(entity.Songs.FirstOrDefault(s => s.SongId == id));
+				}
+				_context.SaveChanges();
+				return RedirectToAction("GenreList");
 			}
-			_context.SaveChanges();
-			return RedirectToAction("GenreList");
+			return View(model);
 		}
 	}
 }
