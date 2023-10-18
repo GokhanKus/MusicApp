@@ -7,7 +7,7 @@
 		<tr>
 			<th style="width:30px">#</th>
 			<th style="width:130px">Image</th>
-			<th style ="width:180px">Name</th>
+			<th style ="width:180px">Song Name</th>
 			<th>Description</th>
 			<th style="width:130px">Release Date</th>
 			<th style="width:180px">Genres</th>
@@ -20,14 +20,14 @@
 			<tr>
 				<td>@song.SongId</td>
 				<td><img src="~/img/@song.ImageUrl" width ="130" height="130"/></td>
-				<td>@song.Name</td>
+				<td>@song.SongName</td>
 				<td>@song.Description</td>
 				<td>@song.ReleaseDate</td>
 				<td>
 					<ul>
 						@foreach (var genre in song.Genres)
 						{
-							<li>@genre.Name</li>
+							<li>@genre.GenreName</li>
 						}
 					</ul>
 				</td>

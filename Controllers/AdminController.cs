@@ -36,7 +36,7 @@ namespace MusicApp.Controllers
 			{
 				var entity = new Song
 				{
-					Name = model.Name,
+					SongName = model.SongName,
 					Description = model.Description,
 					ReleaseDate = model.ReleaseDate,
 					ImageUrl = "No_Image.jpg"
@@ -64,7 +64,7 @@ namespace MusicApp.Controllers
 				.Select(s => new AdminSongViewModel
 				{
 					SongId = s.SongId,
-					Name = s.Name,
+					SongName = s.SongName,
 					ReleaseDate = s.ReleaseDate,
 					Description = s.Description,
 					ImageUrl = s.ImageUrl,
@@ -81,7 +81,7 @@ namespace MusicApp.Controllers
 			var entity = _context.Songs.Select(s => new AdminEditSongModel
 			{
 				SongId = s.SongId,
-				Name = s.Name,
+				SongName = s.SongName,
 				Description = s.Description,
 				ImageUrl = s.ImageUrl,
 				ReleaseDate = s.ReleaseDate,
@@ -103,7 +103,7 @@ namespace MusicApp.Controllers
 				var entity = _context.Songs.Include("Genres").FirstOrDefault(s => s.SongId == model.SongId);
 				if (entity == null) return NotFound();
 
-				entity.Name = model.Name;
+				entity.SongName = model.SongName;
 				entity.Description = model.Description;
 				entity.ReleaseDate = model.ReleaseDate;
 
@@ -154,7 +154,7 @@ namespace MusicApp.Controllers
 				Genres = _context.Genres.Select(g => new AdminGenreViewModel
 				{
 					GenreId = g.GenreId,
-					Name = g.Name,
+					GenreName = g.GenreName,
 					Count = g.Songs.Count
 				}).ToList()
 			};
@@ -165,7 +165,7 @@ namespace MusicApp.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_context.Genres.Add(new Genre { Name = model.Name });
+				_context.Genres.Add(new Genre { GenreName = model.GenreName });
 				_context.SaveChanges();
 				return RedirectToAction("GenreList");
 			}
@@ -192,11 +192,11 @@ namespace MusicApp.Controllers
 				.Select(g => new AdminGenreEditViewModel
 				{
 					GenreId = g.GenreId,
-					Name = g.Name,
+					GenreName = g.GenreName,
 					Songs = g.Songs.Select(i => new AdminSongViewModel
 					{
 						SongId = i.SongId,
-						Name = i.Name,
+						SongName = i.SongName,
 						ImageUrl = i.ImageUrl,
 						ReleaseDate = i.ReleaseDate
 					}).ToList()
@@ -218,7 +218,7 @@ namespace MusicApp.Controllers
 
 				if (entity == null) return NotFound();
 
-				entity.Name = model.Name;
+				entity.GenreName = model.GenreName;
 				foreach (var id in songIds)
 				{
 					entity.Songs.Remove(entity.Songs.FirstOrDefault(s => s.SongId == id));

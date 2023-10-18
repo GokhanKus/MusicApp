@@ -10,9 +10,9 @@
 			<div asp-validation-summary="All"></div>
 
 			<div class="mb-4 form-floating">
-				<input asp-for="Name" class="form-control" placeholder="Name" />
-				<label asp-for="Name">Name</label>
-				<span asp-validation-for="Name" class="text-danger"></span>
+				<input asp-for="SongName" class="form-control" placeholder="Name" />
+				<label asp-for="SongName">SongName</label>
+				<span asp-validation-for="SongName" class="text-danger"></span>
 			</div>
 
 			<div class="mb-4 form-floating">
@@ -49,7 +49,7 @@
 					<input class="form-check-input" type="checkbox" name="GenreIds" value="@item.GenreId" id="genre_@(item.GenreId)"
 					@(Model.GenreIds != null && Model.GenreIds.Any(i => i == item.GenreId) ? "checked" : "")>
 
-					<label class="form-check-label" for="genre_@(item.GenreId)">@item.Name</label>
+					<label class="form-check-label" for="genre_@(item.GenreId)">@item.GenreName</label>
 				</div>
 			}
 			<span asp-validation-for="GenreIds" class="text-danger"></span>

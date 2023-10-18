@@ -31,7 +31,7 @@ namespace MusicApp.Controllers
 			if (!string.IsNullOrEmpty(q))								//burası aranan kelimeye göre filtreleme yapacak
 			{
 				songs = songs
-					.Where(s => s.Name.Contains(q) 
+					.Where(s => s.SongName.Contains(q) 
 					|| s.Description.Contains(q));
 			}
 			var model = new SongsViewModel
