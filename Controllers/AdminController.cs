@@ -96,8 +96,8 @@ namespace MusicApp.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[] genreIds, IFormFile file) //file=null demezsek şarkıyı güncelleme isleminde bizden resim istiyor, ancak biz boyle bir validation kuralı belirtmemistik.(the file field is required) 
-		{
+		public async Task<IActionResult> UpdateSong(AdminEditSongModel model, int[] genreIds, IFormFile? file)
+		{ //file=null demezsek ya da "?" koymazsak şarkıyı güncelleme isleminde bizden resim istiyor, ancak biz boyle bir validation kuralı belirtmemistik.(the file field is required) 
 			if (ModelState.IsValid)
 			{
 				var entity = _context.Songs.Include("Genres").FirstOrDefault(s => s.SongId == model.SongId);
