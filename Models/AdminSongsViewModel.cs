@@ -1,4 +1,5 @@
 ﻿using MusicApp.Entity;
+using MusicApp.Validators;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,6 +31,8 @@ namespace MusicApp.Models
 		[Required (ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
 
+		//[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
+		[ReleaseDateRange(1800,ErrorMessage = $"Release year must be between 1800 and current year.")]
 		public int? ReleaseDate { get; set; } 
 
 	}
