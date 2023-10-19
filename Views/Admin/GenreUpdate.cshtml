@@ -25,7 +25,7 @@
 				@for (int i = 0; i < Model.Songs.Count; i++) //dbden almadık get metodundan aldıgımız listeyi ilgili post üzerine gonderdik.
 				{
 					<input type="hidden" name="Songs[@i].SongId" value="@Model.Songs[i].SongId" />
-					<input type="hidden" name="Songs[@i].Name" value="@Model.Songs[i].SongName" />
+					<input type="hidden" name="Songs[@i].SongName" value="@Model.Songs[i].SongName" />
 					<input type="hidden" name="Songs[@i].ImageUrl" value="@Model.Songs[i].ImageUrl" />
 					<input type="hidden" name="Songs[@i].ReleaseDate" value="@Model.Songs[i].ReleaseDate" />
 				}

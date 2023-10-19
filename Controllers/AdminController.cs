@@ -39,8 +39,23 @@ namespace MusicApp.Controllers
 					SongName = model.SongName,
 					Description = model.Description,
 					ReleaseDate = model.ReleaseDate,
-					ImageUrl = "No_Image.jpg"
+					ImageUrl = "No_Image.jpg",
 				};
+
+
+				var existingArtist = _context.Artists.FirstOrDefault(a => a.ArtistName == model.ArtistName);
+
+				if (existingArtist == null)
+				{
+					existingArtist = new Artist
+					{
+						ArtistName = model.ArtistName,
+					};
+					_context.Artists.Add(existingArtist);
+				}
+
+				// Artist ve Song ilişkisini veritabanına bırakın, otomatik olarak ArtistSong tablosunu güncelleyecektir
+				entity.Artists.Add(existingArtist);
 
 				foreach (var id in model.GenreIds)
 				{
@@ -85,8 +100,16 @@ namespace MusicApp.Controllers
 				Description = s.Description,
 				ImageUrl = s.ImageUrl,
 				ReleaseDate = s.ReleaseDate,
-				GenreIds = s.Genres.Select(g => g.GenreId).ToArray()
+				ArtistNames = s.Artists.Select(a => a.ArtistName).ToList(),
+
+				GenreIds = s.Genres.Select(g => g.GenreId).ToArray(),
 			}).FirstOrDefault(s => s.SongId == id);
+
+			// ArtistNames dizisini virgülle ayırarak birleştiriyoruz
+			if (entity != null)
+			{
+				entity.ArtistNamesString = string.Join(", ", entity.ArtistNames);
+			}
 
 			ViewBag.Genres = _context.Genres.ToList();                       //bu bilgileri sayfaya taşıyalım
 
@@ -100,12 +123,34 @@ namespace MusicApp.Controllers
 		{ //file=null demezsek ya da "?" koymazsak şarkıyı güncelleme isleminde bizden resim istiyor, ancak biz boyle bir validation kuralı belirtmemistik.(the file field is required) 
 			if (ModelState.IsValid)
 			{
-				var entity = _context.Songs.Include("Genres").FirstOrDefault(s => s.SongId == model.SongId);
+				var entity = _context.Songs.Include(g=>g.Genres).Include(a=>a.Artists).FirstOrDefault(s => s.SongId == model.SongId);
 				if (entity == null) return NotFound();
 
 				entity.SongName = model.SongName;
 				entity.Description = model.Description;
 				entity.ReleaseDate = model.ReleaseDate;
+
+				var artistNames = model.ArtistNamesString
+				.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+				.Select(artistName => artistName.Trim()) // Boşlukları temizle
+				.ToList();
+				entity.Artists.Clear(); // Şarkının ilişkili sanatçılarını temizle
+
+				foreach (var artistName in artistNames)
+				{
+					var artist = _context.Artists.FirstOrDefault(a => a.ArtistName == artistName);
+					if (artist != null)
+					{
+						entity.Artists.Add(artist); // Şarkıya sanatçıyı ekle,
+						
+					}
+					else
+					{
+						// Sanatçı bulunamazsa, yeni sanatçı oluşturup ekleyebiliriz.
+						 var newArtist = new Artist { ArtistName = artistName };
+						 entity.Artists.Add(newArtist);
+					}
+				}
 
 				if (file != null)                                                                                       //image bilgisi var mı?
 				{

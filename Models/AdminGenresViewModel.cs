@@ -7,8 +7,8 @@ namespace MusicApp.Models
 {
 	public class AdminGenresViewModel
 	{
-		[Required(ErrorMessage = "Name field cannot be empty")]
-		[StringLength(40, MinimumLength = 2, ErrorMessage = "Name field must bigger than 1 character")]
+		[Required(ErrorMessage = "GenreName field cannot be empty")]
+		[StringLength(40, MinimumLength = 2, ErrorMessage = "GenreName field must bigger than 1 character")]
 		public string GenreName { get; set; } = string.Empty;
 		public List<AdminGenreViewModel> Genres { get; set; } = new List<AdminGenreViewModel>();
 	}
@@ -23,8 +23,8 @@ namespace MusicApp.Models
 	{
 		public int GenreId { get; set; }
 
-		[Required(ErrorMessage = "Name field cannot be empty")]
-		[StringLength(40, MinimumLength = 2, ErrorMessage = "Name field must bigger than 1 character")]
+		[Required(ErrorMessage = "GenreName field cannot be empty")]
+		[StringLength(40, MinimumLength = 2, ErrorMessage = "GenreName field must bigger than 1 character")]
 		public string GenreName { get; set; } = string.Empty;
 		public List<AdminSongViewModel>? Songs { get; set; }
 	}

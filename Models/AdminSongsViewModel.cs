@@ -30,12 +30,14 @@ namespace MusicApp.Models
 
 		[Required (ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
+        public string ArtistName { get; set; }
 
-		//[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
-		[ReleaseDateRange(1800,ErrorMessage = $"Release year must be between 1800 and current year.")]
-		public int? ReleaseDate { get; set; } 
+        //[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
+        [ReleaseDateRange(1800,ErrorMessage = $"Release year must be between 1800 and current year.")]
+		public int? ReleaseDate { get; set; }
+        public string? Language { get; set; }
 
-	}
+    }
 	public class AdminEditSongModel
 	{
 		public int SongId { get; set; }
@@ -50,7 +52,12 @@ namespace MusicApp.Models
 
 		[Required(ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
+		public List<string> ArtistNames { get; set;} = new List<string>();
+		public string ArtistNamesString { get; set; }
+
+		[ReleaseDateRange(1800, ErrorMessage = $"Release year must be between 1800 and current year.")]
 		public int? ReleaseDate { get; set; }
+
 		public string? ImageUrl { get; set; }
 	}
 }

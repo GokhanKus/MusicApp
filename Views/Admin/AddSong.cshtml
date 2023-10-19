@@ -9,7 +9,13 @@
 			<div asp-validation-summary="All"></div>
 
 			<div class="mb-4 form-floating">
-				<input asp-for="SongName" class="form-control" placeholder="Name" />
+				<input asp-for="ArtistName" class="form-control" placeholder="ArtistName" />
+				<label asp-for="ArtistName">ArtistName</label>
+				<span asp-validation-for="ArtistName" class="text-danger"></span>
+			</div>
+
+			<div class="mb-4 form-floating">
+				<input asp-for="SongName" class="form-control" placeholder="SongName" />
 				<label asp-for="SongName">SongName</label>
 				<span asp-validation-for="SongName" class="text-danger"></span>
 			</div>
