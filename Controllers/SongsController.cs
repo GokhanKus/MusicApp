@@ -41,5 +41,24 @@ namespace MusicApp.Controllers
 
 			return View("Songs",model);									//bu sekilde yaparsak List.cshtml adında dosya olusturmak yerine Songs.cshtml dosyası olusturabiliriz.
 		}
+		public IActionResult Details(int id)
+		{
+			//var model = _context.Songs.Find(id);
+
+			/*ONEMLİ üstteki satır varken detay sayfamıza artist bilgilerini getiremiyorduk, cünkü many to many ilişki var ve biz bu tabloyu şarkı tablomuza
+			dahil etmiyorduk. aşagıdaki gibi include ederek artist bilgilerini alırız ve songs tablosu ile join yaparız artık null olarak gözükmeyecek 
+			şarkının artistnamesi var ise detay sayfasında gözükecek.*/
+			//aynı şekilde Genres bilgilerini de bu yüzden eklemek zorundayız.
+
+			var model = _context.Songs.Include(s => s.Artists).Include(g=>g.Genres).FirstOrDefault(s => s.SongId == id);
+
+			//eğer 1 şarkıyı birden fazla sanatçı söylemişse detay kısmında sanatçılar alt alta çıkıyordu, bunu istemedim yan yana olsun istedim. string.Join()
+			var artists = model.Artists.Select(a => a.ArtistName).ToList();
+			var artistNames = string.Join(", ", artists);
+			ViewBag.ArtistNames = artistNames;
+
+
+			return View(model);
+		}
 	}
 }

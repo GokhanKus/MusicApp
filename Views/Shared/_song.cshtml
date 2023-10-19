@@ -1,26 +1,26 @@
 ﻿@model Song
 
 <div class="col">
-	<div class="card">
-		<img src="/img/@Model.ImageUrl" class="card-img-top" alt="@Model.SongName">
-		<div class="card-body">
-			<h5 class="card-title">@Model.SongName</h5>
-			<div class="description">
-				<p class="card-text">@{
-						@if (Model.Description?.Length > 135) //? koymazsak nullable olarak isaretlemezsek description bilgisi girmedğimizde burası hata verir
-						{
-							Model.Description = Model.Description.Substring(0, 135) + "...";
+	<a asp-controller="Songs" asp-action="Details" asp-route-id="@Model.SongId" class="card-link">
+		<div class="card">
+			<img src="/img/@Model.ImageUrl" class="card-img-top" alt="@Model.SongName">
+			<div class="card-body">
+				<h5 class="card-title">@Model.SongName</h5>
+				<div class="description">
+					<p class="card-text">
+						@{
+							@if (Model.Description?.Length > 135) //? koymazsak nullable olarak isaretlemezsek description bilgisi girmedğimizde burası hata verir
+							{
+								Model.Description = Model.Description.Substring(0, 135) + "...";
+							}
 						}
-					}
-					@Model.Description
-				</p>
+						@Model.Description
+					</p>
+				</div>
 			</div>
-
 		</div>
-	</div>
+	</a>
 </div>
-
-
 @* <div class="col">
 	<div class="card mb-3">
 		<div class="row">

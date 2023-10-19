@@ -1,0 +1,35 @@
+﻿@model Song
+<div class="card">
+	<div class="row">
+		<div class="col-md-3">
+			<img src="/img/@Model.ImageUrl" class="card-img" /> @*card-img-top*@
+		</div>
+		<div class="col-md-9">
+
+			<div class="card-body">
+				<h2 class="card-title">@Model.SongName</h2>
+				<div>
+					@if (Model.Artists != null && Model.Artists.Any())
+					{
+						
+							<h5>
+								@ViewBag.ArtistNames
+							</h5>
+						
+					}
+					else
+					{
+						<h5>No artists found.</h5>
+					}
+				</div>
+				<p class="card-text">@Html.Raw(Model.Description)</p>
+
+				@foreach (var genre in Model.Genres)
+				{
+					<h5>@genre.GenreName</h5>
+				}
+			</div>
+
+		</div>
+	</div>
+</div>
