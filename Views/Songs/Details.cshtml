@@ -11,11 +11,9 @@
 				<div>
 					@if (Model.Artists != null && Model.Artists.Any())
 					{
-						
-							<h5>
-								@ViewBag.ArtistNames
-							</h5>
-						
+						<h5>
+							Artist: @ViewBag.ArtistNames
+						</h5>
 					}
 					else
 					{
@@ -23,11 +21,8 @@
 					}
 				</div>
 				<p class="card-text">@Html.Raw(Model.Description)</p>
-
-				@foreach (var genre in Model.Genres)
-				{
-					<h5>@genre.GenreName</h5>
-				}
+				<hr />
+				<h5>@ViewBag.GenreNames</h5>
 			</div>
 
 		</div>
