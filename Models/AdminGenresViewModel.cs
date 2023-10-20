@@ -27,6 +27,7 @@ namespace MusicApp.Models
 		[StringLength(40, MinimumLength = 2, ErrorMessage = "GenreName field must bigger than 1 character")]
 		public string GenreName { get; set; } = string.Empty;
 		public List<AdminSongViewModel>? Songs { get; set; }
+		public List<AdminArtistViewModel>? Artists { get; set; }
 	}
 }
 

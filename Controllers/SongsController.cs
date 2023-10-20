@@ -61,6 +61,8 @@ namespace MusicApp.Controllers
 			var genreNames = string.Join("&", genres);
 			ViewBag.GenreNames = genreNames;
 
+			var artistNationality = model.Artists.Select(a=>a.Nationality).ToList();
+
 			return View(model);
 		}
 	}

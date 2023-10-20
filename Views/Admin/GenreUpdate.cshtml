@@ -39,7 +39,8 @@
 						<th style="width:30px">#</th>
 						<th style="width:120px">Image</th>
 						<th>Name</th>
-						<th style="width:150px"></th>
+						<th style="width:120px">Release Date</th>
+						<th style="width:100px"></th>
 					</tr>
 				</thead>
 
@@ -55,6 +56,7 @@
 								<td>@song.SongId</td>
 								<td> <img src="~/img/@song.ImageUrl" width="120" /> </td>
 								<td>@song.SongName</td>
+								<td>@song.ReleaseDate</td>
 								<td>
 									<a asp-controller="admin" asp-action="updatesong" asp-route-id="@song.SongId" class="btn btn-primary btn-sm">Update</a>
 								</td>

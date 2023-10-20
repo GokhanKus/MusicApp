@@ -11,9 +11,11 @@
 				<div>
 					@if (Model.Artists != null && Model.Artists.Any())
 					{
-						<h5>
-							Artist: @ViewBag.ArtistNames
-						</h5>
+						<h5>Artist: @ViewBag.ArtistNames</h5>
+						@foreach (var artist in Model.Artists)
+						{
+							<h5>Artist's Nation: @artist.Nationality</h5>
+						}
 					}
 					else
 					{

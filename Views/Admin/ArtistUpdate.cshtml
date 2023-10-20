@@ -14,6 +14,13 @@
 				<label asp-for="ArtistName"></label>
 				<span asp-validation-for="ArtistName" class="text-danger"></span>
 			</div>
+
+			<div class="mb-3 form-floating">
+				<input asp-for="Nationality" class="form-control" placeholder="Nationality" />
+				<label asp-for="Nationality"></label>
+				<span asp-validation-for="Nationality" class="text-danger"></span>
+			</div>
+
 			<button type="submit" class="btn btn-primary">Submit</button>
 
 		</div>
@@ -38,7 +45,8 @@
 						<th style="width:30px">#</th>
 						<th style="width:150px"> Image</th>
 						<th> Name</th>
-						<th style="width:150px"></th>
+						<th style="width:200px"> Artist</th>
+						<th style="width:100px"></th>
 					</tr>
 				</thead>
 
@@ -54,9 +62,10 @@
 								</td>
 								<td>@song.SongId</td>
 								<td>
-									<img src="~/img/@song.ImageUrl" width="120"/>
+									<img src="~/img/@song.ImageUrl" width="120" />
 								</td>
 								<td>@song.SongName</td>
+								<td>@ViewBag.ArtistNames</td>
 								<td>
 									<a asp-controller="admin" asp-action="updatesong" asp-route-id="@song.SongId" class="btn btn-primary btn-sm">Update</a>
 								</td>

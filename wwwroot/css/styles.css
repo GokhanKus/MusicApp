@@ -23,3 +23,12 @@ body {
 img {
     border: 1.7px solid black;
 }
+
+.card-link {
+    color: black;  /*veya istediðiniz renk */
+    text-decoration: none;  /*Altý çiziliyi kaldýrýr */
+}
+
+.card-link:hover{
+    color:purple;
+}

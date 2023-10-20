@@ -235,7 +235,8 @@ namespace MusicApp.Controllers
 			{
 				return NotFound();
 			}
-			var entity = _context.Genres
+			var entity = _context.Genres  // Songs ilişkisini dahil et
+		
 				.Select(g => new AdminGenreEditViewModel
 				{
 					GenreId = g.GenreId,
@@ -245,10 +246,12 @@ namespace MusicApp.Controllers
 						SongId = i.SongId,
 						SongName = i.SongName,
 						ImageUrl = i.ImageUrl,
-						ReleaseDate = i.ReleaseDate
+						ReleaseDate = i.ReleaseDate,
+						
+						
 					}).ToList()
 				}).FirstOrDefault(g => g.GenreId == id);
-
+			
 			if (entity == null)
 			{
 				return NotFound();
@@ -275,6 +278,7 @@ namespace MusicApp.Controllers
 			}
 			return View(model);
 		}
+
 		public IActionResult ArtistList()
 		{
 			return View(GetArtists());
@@ -294,8 +298,24 @@ namespace MusicApp.Controllers
 			return model;
 		}
 
+		[HttpPost]
+		public IActionResult ArtistCreate(AdminArtistsViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Artists.Add(new Artist
+				{
+					ArtistName = model.ArtistName
+
+				});
+				_context.SaveChanges();
+				return RedirectToAction("ArtistList");
+			}
+			return View("ArtistList", GetArtists());
+		}
 		public IActionResult ArtistUpdate(int? id)
 		{
+			
 			if (id == null)
 			{
 				return NotFound();
@@ -314,11 +334,38 @@ namespace MusicApp.Controllers
 						ReleaseDate = i.ReleaseDate,
 					}).ToList()
 				}).FirstOrDefault(a => a.ArtistId == id);
+
+			ViewBag.ArtistNames = entity.ArtistName;
+
+
 			if (entity == null)
 			{
 				return NotFound();
 			}
+
 			return View(entity);
+		}
+
+		[HttpPost]
+		public IActionResult ArtistUpdate(AdminArtistEditModel model, int[] songIds)
+		{
+			if (ModelState.IsValid)
+			{
+				var entity = _context.Artists.Include(a => a.Songs).FirstOrDefault(i => i.ArtistId == model.ArtistId);
+
+				if (entity == null) return NotFound();
+
+				entity.ArtistName = model.ArtistName;
+				entity.Nationality = model.Nationality;
+				foreach (var id in songIds)
+				{
+					entity.Songs.Remove(entity.Songs.FirstOrDefault(s => s.SongId == id));
+				}
+				_context.SaveChanges();
+				return RedirectToAction("ArtistList");
+				
+			}
+			return View(model);
 		}
 
 		[HttpPost]
