@@ -14,7 +14,7 @@
 				<label asp-for="GenreName">GenreName</label>
 				<span asp-validation-for="GenreName" class="text-danger"></span>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>	
+			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
 	</div>
 
@@ -24,7 +24,7 @@
 			<thead>
 				<tr>
 					<th style="width:30px">#</th>
-					<th>Name</th>
+					<th>Genre Name</th>
 					<th style="width:40px">Count</th>
 					<th style="width:150px"></th>
 				</tr>
@@ -41,7 +41,7 @@
 							<a asp-controller="admin" asp-action="genreupdate" asp-route-id="@genre.GenreId" class="btn btn-warning btn-sm">Update</a>
 
 							<form asp-controller="admin" asp-action="genredelete" method="post" style="display: inline">
-								<input type="hidden" name="genreId" value="@genre.GenreId"/>
+								<input type="hidden" name="genreId" value="@genre.GenreId" />
 								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
 							</form>
 						</td>

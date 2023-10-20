@@ -1,0 +1,58 @@
+﻿@model AdminArtistsViewModel
+
+<h1>Admin Artists</h1>
+
+<div class="row">
+
+	<div class="col-md-3">
+		<form asp-controller="Admin" asp-action="ArtistList" method="post">
+			<div asp-validation-summary="All"></div>
+
+			<div class="mb-3 form-floating">
+
+				<input asp-for="ArtistName" class="form-control" placeholder="ArtistName" />
+				<label asp-for="ArtistName">ArtistName</label>
+				<span asp-validation-for="ArtistName" class="text-danger"></span>
+
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+
+	<div class="col-md-6">
+
+		<table class="table table-striped table-hover table-bordered border-dark">
+
+			<thead>
+				<tr>
+					<th style="width:30px">#</th>
+					<th>Artist Name</th>
+					<th style="width:40px">Count</th>
+					<th style="width:150px"></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach (var artist in Model.Artists)
+				{
+					<tr>
+						<td>@artist.ArtistId</td>
+						<td>@artist.ArtistName</td>
+						<td>@artist.Count</td>
+						<td>
+							<a asp-controller="admin" asp-action="artistupdate" asp-route-id="@artist.ArtistId" class="btn btn-warning btn-sm">Update</a>
+
+							<form asp-controller="admin" asp-action="artistdelete" method="post" style="display: inline">
+								<input type="hidden" name="artistId" value="@artist.ArtistId"/>
+								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+
+
+		</table>
+
+	</div>
+</div>

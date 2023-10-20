@@ -123,7 +123,7 @@ namespace MusicApp.Controllers
 		{ //file=null demezsek ya da "?" koymazsak şarkıyı güncelleme isleminde bizden resim istiyor, ancak biz boyle bir validation kuralı belirtmemistik.(the file field is required) 
 			if (ModelState.IsValid)
 			{
-				var entity = _context.Songs.Include(g=>g.Genres).Include(a=>a.Artists).FirstOrDefault(s => s.SongId == model.SongId);
+				var entity = _context.Songs.Include(g => g.Genres).Include(a => a.Artists).FirstOrDefault(s => s.SongId == model.SongId);
 				if (entity == null) return NotFound();
 
 				entity.SongName = model.SongName;
@@ -142,13 +142,13 @@ namespace MusicApp.Controllers
 					if (artist != null)
 					{
 						entity.Artists.Add(artist); // Şarkıya sanatçıyı ekle,
-						
+
 					}
 					else
 					{
 						// Sanatçı bulunamazsa, yeni sanatçı oluşturup ekleyebiliriz.
-						 var newArtist = new Artist { ArtistName = artistName };
-						 entity.Artists.Add(newArtist);
+						var newArtist = new Artist { ArtistName = artistName };
+						entity.Artists.Add(newArtist);
 					}
 				}
 
@@ -205,6 +205,8 @@ namespace MusicApp.Controllers
 			};
 			return model;
 		}
+
+
 		[HttpPost] //httppost yazmasak da çalışıyor?
 		public IActionResult GenreCreate(AdminGenresViewModel model)
 		{
@@ -272,6 +274,63 @@ namespace MusicApp.Controllers
 				return RedirectToAction("GenreList");
 			}
 			return View(model);
+		}
+		public IActionResult ArtistList()
+		{
+			return View(GetArtists());
+		}
+
+		private AdminArtistsViewModel GetArtists()
+		{
+			var model = new AdminArtistsViewModel
+			{
+				Artists = _context.Artists.Select(a => new AdminArtistViewModel
+				{
+					ArtistId = a.ArtistId,
+					Count = a.Songs.Count,
+					ArtistName = a.ArtistName,
+				}).ToList()
+			};
+			return model;
+		}
+
+		public IActionResult ArtistUpdate(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var entity = _context.Artists
+				.Select(a => new AdminArtistEditModel
+				{
+					ArtistId = a.ArtistId,
+					ArtistName = a.ArtistName,
+					Nationality = a.Nationality,
+					Songs = a.Songs.Select(i => new AdminSongViewModel
+					{
+						SongId = i.SongId,
+						SongName = i.SongName,
+						ImageUrl = i.ImageUrl,
+						ReleaseDate = i.ReleaseDate,
+					}).ToList()
+				}).FirstOrDefault(a => a.ArtistId == id);
+			if (entity == null)
+			{
+				return NotFound();
+			}
+			return View(entity);
+		}
+
+		[HttpPost]
+		public IActionResult ArtistDelete(int artistId)
+		{
+			var entity = _context.Artists.Find(artistId);
+			if (entity != null)
+			{
+				_context.Remove(entity);
+				_context.SaveChanges();
+			}
+			return RedirectToAction("ArtistList");
 		}
 	}
 }

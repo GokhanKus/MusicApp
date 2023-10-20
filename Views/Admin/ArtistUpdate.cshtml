@@ -1,32 +1,31 @@
-﻿@model AdminGenreEditViewModel
+﻿@model AdminArtistEditModel
 
-<h1>Edit Genre</h1>
-<hr />
+<h1>Edit Artist</h1>
 
-<form asp-controller="admin" asp-action="genreupdate" method="post">
+<form asp-controller="admin" asp-action="artistupdate" method="post">
 	<div class="row">
+
 		<div class="col-md-3">
 			<div asp-validation-summary="All"></div>
-
-			<input type="hidden" name="GenreId" value="@Model.GenreId" />
+			<input type="hidden" name="ArtistId" value="@Model.ArtistId" />
 
 			<div class="mb-3 form-floating">
-				<input asp-for="GenreName" class="form-control" placeholder="Name" />
-				<label asp-for="GenreName"></label>
-				<span asp-validation-for="GenreName" class="text-danger"></span>
+				<input asp-for="ArtistName" class="form-control" placeholder="ArtistName" />
+				<label asp-for="ArtistName"></label>
+				<span asp-validation-for="ArtistName" class="text-danger"></span>
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
+
 		</div>
 
 		<div class="col-md-9">
-
-			@if (Model.Songs != null) //bu if kontrolünü yapmazsak yeni eklenen ve icinde şarkı olmayan tür bilgisini güncellerken Model.songs null oluyor
+			@if (Model.Songs != null)  //bu if kontrolünü yapmazsak yeni eklenen ve icinde şarkı olmayan artist bilgisini güncellerken Model.songs null oluyor (hata)
 			{
-				@for (int i = 0; i < Model.Songs.Count; i++) //dbden almadık get metodundan aldıgımız listeyi ilgili post üzerine gonderdik.
+				@for (int i = 0; i < Model.Songs.Count; i++)
 				{
 					<input type="hidden" name="Songs[@i].SongId" value="@Model.Songs[i].SongId" />
-					<input type="hidden" name="Songs[@i].SongName" value="@Model.Songs[i].SongName" />
 					<input type="hidden" name="Songs[@i].ImageUrl" value="@Model.Songs[i].ImageUrl" />
+					<input type="hidden" name="Songs[@i].SongName" value="@Model.Songs[i].SongName" />
 					<input type="hidden" name="Songs[@i].ReleaseDate" value="@Model.Songs[i].ReleaseDate" />
 				}
 			}
@@ -35,16 +34,17 @@
 
 				<thead>
 					<tr>
-						<th style="width:45px">Remove</th>
+						<th style="width:40px"> Remove</th>
 						<th style="width:30px">#</th>
-						<th style="width:120px">Image</th>
-						<th>Name</th>
+						<th style="width:150px"> Image</th>
+						<th> Name</th>
 						<th style="width:150px"></th>
 					</tr>
 				</thead>
 
 				<tbody>
-					@if (Model.Songs != null) //bu if kontrolünü yapmazsak yeni eklenen ve icinde şarkı olmayan tür bilgisini güncellerken Model.songs null oluyor
+
+					@if (Model.Songs != null) //bu if kontrolünü yapmazsak yeni eklenen ve icinde şarkı olmayan artist bilgisini güncellerken Model.songs null oluyor (hata)
 					{
 						@foreach (var song in Model.Songs)
 						{
@@ -53,7 +53,9 @@
 									<input class="form-check-input" type="checkbox" name="songIds" value="@song.SongId" />
 								</td>
 								<td>@song.SongId</td>
-								<td> <img src="~/img/@song.ImageUrl" width="120" /> </td>
+								<td>
+									<img src="~/img/@song.ImageUrl" width="120"/>
+								</td>
 								<td>@song.SongName</td>
 								<td>
 									<a asp-controller="admin" asp-action="updatesong" asp-route-id="@song.SongId" class="btn btn-primary btn-sm">Update</a>
@@ -61,12 +63,12 @@
 							</tr>
 						}
 					}
-
 				</tbody>
 
 			</table>
-
 		</div>
 
 	</div>
+
+
 </form>
