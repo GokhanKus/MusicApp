@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Entity;
+using MusicApp.Validators;
 using System.ComponentModel.DataAnnotations;
 
 namespace MusicApp.Models
@@ -9,6 +10,7 @@ namespace MusicApp.Models
 	{
 		[Required(ErrorMessage = "GenreName field cannot be empty")]
 		[StringLength(40, MinimumLength = 2, ErrorMessage = "GenreName field must bigger than 1 character")]
+		[GenreName]
 		public string GenreName { get; set; } = string.Empty;
 		public List<AdminGenreViewModel> Genres { get; set; } = new List<AdminGenreViewModel>();
 	}

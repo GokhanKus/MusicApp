@@ -30,7 +30,8 @@ namespace MusicApp.Models
 
 		[Required (ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
-        public string ArtistName { get; set; }
+
+		public string ArtistName { get; set; } = string.Empty;
 
         //[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
         [ReleaseDateRange(1800,ErrorMessage = $"Release year must be between 1800 and current year.")]

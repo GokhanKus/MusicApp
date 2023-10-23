@@ -1,7 +1,10 @@
-﻿namespace MusicApp.Models
+﻿using MusicApp.Validators;
+
+namespace MusicApp.Models
 {
 	public class AdminArtistsViewModel
 	{
+		[ArtistName]
 		public string ArtistName { get; set; } = string.Empty;
 		public string? Nationality { get; set; } = string.Empty;
 		public List<AdminArtistViewModel> Artists { get; set; } = new List<AdminArtistViewModel>();

@@ -50,7 +50,10 @@ namespace MusicApp.Controllers
 			şarkının artistnamesi var ise detay sayfasında gözükecek.*/
 			//aynı şekilde Genres bilgilerini de bu yüzden eklemek zorundayız.
 
-			var model = _context.Songs.Include(s => s.Artists).Include(g => g.Genres).FirstOrDefault(s => s.SongId == id);
+			var model = _context.Songs
+				.Include(s => s.Artists)
+				.Include(g => g.Genres)
+				.FirstOrDefault(s => s.SongId == id);
 
 			//eğer 1 şarkıyı birden fazla sanatçı söylemişse detay kısmında sanatçılar alt alta çıkıyordu, bunu istemedim yan yana olsun istedim. string.Join()
 			var artists = model.Artists.Select(a => a.ArtistName).ToList();
