@@ -32,3 +32,8 @@ img {
 .card-link:hover{
     color:purple;
 }
+
+/* Hover ile dropdown menüyü açma */
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
