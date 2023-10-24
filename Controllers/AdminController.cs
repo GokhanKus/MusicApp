@@ -11,12 +11,14 @@ using static System.Net.WebRequestMethods;
 
 namespace MusicApp.Controllers
 {
-	public class AdminController : Controller
+	public class AdminController : BaseController
 	{
-		private readonly SongContext _context;
-		public AdminController(SongContext context)
+		//private readonly SongContext _context;
+		//basecontrollerdan kalıtım aldığımız için contexti injection islemini burada yapmayalım
+
+		public AdminController(SongContext context) :base(context)
 		{
-			_context = context; //inject işlemi
+			//_context = context; //inject işlemi
 		}
 		public IActionResult Index()
 		{

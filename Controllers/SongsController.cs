@@ -5,12 +5,15 @@ using MusicApp.Models;
 
 namespace MusicApp.Controllers
 {
-	public class SongsController : Controller
+	public class SongsController : BaseController
 	{
-		private readonly SongContext _context;
-		public SongsController(SongContext context)
+		//private readonly SongContext _context;
+
+		//basecontrollerdan kalıtım aldığımız için contexti injection islemini burada yapmayalım
+
+		public SongsController(SongContext context):base(context) 
 		{
-			_context = context;
+			//_context = context;
 		}
 		public IActionResult Index()
 		{

@@ -5,16 +5,17 @@ using System.Diagnostics;
 
 namespace MusicApp.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
-		private readonly SongContext _context;
-        public HomeController(SongContext songContext)
+		//private readonly SongContext _context;
+
+		//basecontrollerdan kalıtım aldığımız için contexti injection islemini burada yapmayalım
+		public HomeController(SongContext context) : base(context)
         {
-			_context = songContext; //injection islemi
+			//_context = songContext; //injection islemi
         }
         public IActionResult Index()
 		{
-			
 			var model = new HomePageViewModel
 			{
 				PopularSongs = _context.Songs.ToList()
