@@ -13,7 +13,7 @@ namespace MusicApp.Models
 	{
 		public int SongId { get; set; }
 		public string SongName { get; set; } = string.Empty;
-		public string? Description { get; set; }
+		public List<string> ArtistNames { get; set; } = new List<string>();
 		public string? ImageUrl { get; set; }
 		public List<Genre> Genres { get; set; } = new List<Genre>(); //many to many relation with Genre
 		public int? ReleaseDate { get; set; }
@@ -28,17 +28,17 @@ namespace MusicApp.Models
 		[StringLength(800, MinimumLength = 10, ErrorMessage = "Description field: Min: 10, Max: 800 character allowed")]
 		public string? Description { get; set; }
 
-		[Required (ErrorMessage = "You must choose at least one genre")]
+		[Required(ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
 
 		public string ArtistName { get; set; } = string.Empty;
 
-        //[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
-        [ReleaseDateRange(1800,ErrorMessage = $"Release year must be between 1800 and current year.")]
+		//[ReleaseDate(ErrorMessage = "Release year must be between 1800 and current year.")]
+		[ReleaseDateRange(1800, ErrorMessage = $"Release year must be between 1800 and current year.")]
 		public int? ReleaseDate { get; set; }
-        public string? Language { get; set; }
+		public string? Language { get; set; }
 
-    }
+	}
 	public class AdminEditSongModel
 	{
 		public int SongId { get; set; }
@@ -53,7 +53,7 @@ namespace MusicApp.Models
 
 		[Required(ErrorMessage = "You must choose at least one genre")]
 		public int[] GenreIds { get; set; }
-		public List<string> ArtistNames { get; set;} = new List<string>();
+		public List<string> ArtistNames { get; set; } = new List<string>();
 		public string ArtistNamesString { get; set; }
 
 		[ReleaseDateRange(1800, ErrorMessage = $"Release year must be between 1800 and current year.")]

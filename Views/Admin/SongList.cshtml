@@ -6,12 +6,12 @@
 	<thead>
 		<tr>
 			<th style="width:30px">#</th>
-			<th style="width:130px">Image</th>
-			<th style ="width:180px">Song Name</th>
-			<th>Description</th>
+			<th style="width:140px">Image</th>
+			<th style="width:220px">Song Name</th>
+			<th>Artist</th>
 			<th style="width:130px">Release Date</th>
 			<th style="width:180px">Genres</th>
-			<th style="width:160px"></th>	
+			<th style="width:160px"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,10 +19,21 @@
 		{
 			<tr>
 				<td>@song.SongId</td>
-				<td><img src="~/img/@song.ImageUrl" width ="130" height="130"/></td>
+				<td><img src="~/img/@song.ImageUrl" width="130" height="130" /></td>
 				<td>@song.SongName</td>
-				<td>@song.Description</td>
+
+				<td>
+					<ul>
+						@foreach (var artist in song.ArtistNames)
+						{
+							<li>@artist</li>
+						}
+					</ul>
+				</td>
+
+
 				<td>@song.ReleaseDate</td>
+
 				<td>
 					<ul>
 						@foreach (var genre in song.Genres)
@@ -34,7 +45,7 @@
 				<td>
 
 					<a asp-controller="admin" asp-action="updatesong" asp-route-id="@song.SongId" class="btn btn-primary btn-sm">Update</a>
-					
+
 					<form asp-controller="admin" asp-action="removesong" method="post" style="display: inline">
 						<input type="hidden" name="songId" value="@song.SongId" />
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>

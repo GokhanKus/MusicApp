@@ -83,11 +83,13 @@ namespace MusicApp.Controllers
 					SongId = s.SongId,
 					SongName = s.SongName,
 					ReleaseDate = s.ReleaseDate,
-					Description = s.Description,
 					ImageUrl = s.ImageUrl,
-					Genres = s.Genres.ToList()
+					Genres = s.Genres.ToList(),
+					ArtistNames = s.Artists.Select(a => a.ArtistName).ToList()
 				}).ToList()
 			};
+
+			
 			return View(model);
 		}
 
