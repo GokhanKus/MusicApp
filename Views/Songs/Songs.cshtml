@@ -2,7 +2,7 @@
 
 <h1>Song List</h1>
 <div id="songs">
-	@if (Model.Songs.Count() > 0) //film listesinin ici doluysa, film varsa;
+	@if (Model.Songs.Count() > 0) //şarkı listesinin ici doluysa, şarkı varsa;
 	{
 		<div class="row row-cols-1 row-cols-md-4 g-4">
 		@foreach (var song in Model.Songs) //model. dedigimizde songs veya genres cikiyor

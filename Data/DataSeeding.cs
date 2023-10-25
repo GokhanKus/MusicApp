@@ -10,8 +10,15 @@ namespace MusicApp.Data
 			var scope = app.ApplicationServices.CreateScope();
 			var context = scope.ServiceProvider.GetService<SongContext>();
 
+			if (!context.Database.GetAppliedMigrations().Any()) //olusturulmus ancak uygulanmamıs migration varsa update database yapılsın
+			{
+				context.Database.Migrate();
+			}
+			//if (context.Database.GetPendingMigrations().Any()) bunu da kullanabiliriz
+			//{
 
-			context.Database.Migrate();
+			//}
+
 
 			var genres = new List<Genre>
 			{
@@ -108,7 +115,7 @@ namespace MusicApp.Data
 					Nationality = "The USA",
 					Songs = new List<Song>
 					{
-						songs[0],songs[2],	
+						songs[0],songs[2],
 					}
 				},
 				new Artist
@@ -117,7 +124,7 @@ namespace MusicApp.Data
 					Nationality = "Germany",
 					Songs = new List<Song>
 					{
-						songs[1],songs[3],	
+						songs[1],songs[3],
 					}
 				}
 			};
@@ -152,7 +159,7 @@ namespace MusicApp.Data
 				if (context.Genres.Count() == 0) context.Genres.AddRange(genres);//ilgili tabloya deger hic eklenmemisse burada ekleyelim
 				if (context.Artists.Count() == 0) context.Artists.AddRange(artists);
 				if (context.Albums.Count() == 0) context.Albums.AddRange(album);
-				
+
 
 				context.SaveChanges();
 			}
