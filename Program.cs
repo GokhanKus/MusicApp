@@ -4,13 +4,32 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using MusicApp.Data;
+using Microsoft.AspNetCore.Identity;
+using MusicApp.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //sql conn string
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SongContext>(options =>
-	options.UseSqlServer(connectionString));
+options.UseSqlServer(connectionString));
+
+
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SongContext>().AddDefaultTokenProviders();
+//sifre, mail resetleme degistirme, mail onaylama gibi islemler icin gereken token bilgisini üretmek icin AddDefaultTokenProviders() yaz?yoruz.
+
+//ilgili alanlarý degistirecegimiz alan (validation gibi)
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+
+//});
+
+//cookie ayarlarýný degistirecegimiz yer
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+	
+//});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -32,6 +51,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseAuthentication();//burayý da biz yazdýk yazmamýz lazým
 app.UseAuthorization();
 
 app.MapControllerRoute(

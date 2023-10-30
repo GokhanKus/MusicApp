@@ -10,16 +10,14 @@ namespace MusicApp.Data
 			var scope = app.ApplicationServices.CreateScope();
 			var context = scope.ServiceProvider.GetService<SongContext>();
 
-			if (!context.Database.GetAppliedMigrations().Any()) //olusturulmus ancak uygulanmamıs migration varsa update database yapılsın
+			//if (!context.Database.GetAppliedMigrations().Any()) //olusturulmus ancak uygulanmamıs migration varsa update database yapılsın
+			//{
+			//	context.Database.Migrate();
+			//}
+			if (context.Database.GetPendingMigrations().Any()) //bunu da kullanabiliriz
 			{
 				context.Database.Migrate();
 			}
-			//if (context.Database.GetPendingMigrations().Any()) bunu da kullanabiliriz
-			//{
-
-			//}
-
-
 			var genres = new List<Genre>
 			{
 				new Genre
