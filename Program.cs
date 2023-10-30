@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+ï»¿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -17,15 +17,15 @@ options.UseSqlServer(connectionString));
 
 
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SongContext>().AddDefaultTokenProviders();
-//sifre, mail resetleme degistirme, mail onaylama gibi islemler icin gereken token bilgisini üretmek icin AddDefaultTokenProviders() yaz?yoruz.
+//sifre, mail resetleme degistirme, mail onaylama gibi islemler icin gereken token bilgisini Ã¼retmek icin AddDefaultTokenProviders() yazÃ½yoruz.
 
-//ilgili alanlarý degistirecegimiz alan (validation gibi)
+//ilgili alanlarÄ± degistirecegimiz alan (validation gibi)
 //builder.Services.Configure<IdentityOptions>(options =>
 //{
 
 //});
 
-//cookie ayarlarýný degistirecegimiz yer
+//cookie ayarlarÄ±nÄ± degistirecegimiz yer
 //builder.Services.ConfigureApplicationCookie(options =>
 //{
 	
@@ -33,7 +33,7 @@ builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SongCo
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-	//.AddViewOptions(options => options.HtmlHelperOptions.ClientValidationEnabled = true); client tarafýnda validation, ama ... = false yaparsan server tarafýnda validation
+	//.AddViewOptions(options => options.HtmlHelperOptions.ClientValidationEnabled = true); client tarafÄ±nda validation, ama ... = false yaparsan server tarafÄ±nda validation
 
 var app = builder.Build();
 
@@ -46,13 +46,14 @@ else //app.Environment.IsDevelopment()
 {
 	app.UseDeveloperExceptionPage();
 	DataSeeding.Seed(app);
+	IdentityDataSeeding.Seed(app);
 }
 app.UseStaticFiles();
 
 app.UseRouting();
 
 
-app.UseAuthentication();//burayý da biz yazdýk yazmamýz lazým
+app.UseAuthentication();//burayÄ± da biz yazdÄ±k yazmamÄ±z lazÄ±m
 app.UseAuthorization();
 
 app.MapControllerRoute(
