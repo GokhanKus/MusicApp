@@ -1,53 +1,67 @@
 ﻿﻿@*navbar ekleyelim, navbar icin yeni ve bir view dosyası olusturduk (partial view, razor view empty)*@
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <div class="navbar-brand">Rate The Song</div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Songs" asp-action="List">Songs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="AddSong">Admin Add Song</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="SongList">Admin Songs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="GenreList">Admin Genres</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Admin" asp-action="ArtistList">Admin Artists</a>
-                </li>
+	<div class="container-fluid">
+		<div class="navbar-brand">Rate The Song</div>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Songs" asp-action="List">Songs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Admin" asp-action="AddSong">Admin Add Song</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Admin" asp-action="SongList">Admin Songs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Admin" asp-action="GenreList">Admin Genres</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Admin" asp-action="ArtistList">Admin Artists</a>
+				</li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Genres
-                    </a>
-                    <ul class="dropdown-menu">   
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Genres
+					</a>
+					<ul class="dropdown-menu">
 
 						<li><a class="dropdown-item" href="/Songs/List">All Songs</a></li>
 						<li><hr class="dropdown-divider"></li>
 
-                        @await Component.InvokeAsync("GenreDropDown")
-                   
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form asp-controller="songs" asp-action="list" class="d-flex" role="search">
-                <input class="form-control me-2" name="q" type="search" placeholder="Song & Artist & Band" aria-label="Search">
-                <button class="btn btn-outline-success mr-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
+						@await Component.InvokeAsync("GenreDropDown")
+
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ms-auto">
+				@*saga dogru yanastirdik.*@
+
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+				</li>
+
+			</ul>
+
+			<form asp-controller="songs" asp-action="list" class="d-flex" role="search">
+				<input class="form-control me-2" name="q" type="search" placeholder="Song & Artist & Band" aria-label="Search">
+				<button class="btn btn-outline-success mr-0" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
 </nav>
