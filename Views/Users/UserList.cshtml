@@ -32,7 +32,7 @@
 				<td>@user.Email</td>
 
 				<td>
-					<a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
+					<a asp-controller="Users" asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
 
 					@*onsubmit kısmı useri silmek istedigimizde emin misiniz diye sorar*@
 					<form asp-controller="Users" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">	

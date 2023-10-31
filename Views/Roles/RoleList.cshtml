@@ -32,8 +32,8 @@
 				<td>
 					<a asp-controller="Roles" asp-action="Edit" asp-route-id="@role.Id" class="btn btn-warning btn-sm">Edit</a>
 
-					<form asp-controller="Roles" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">
-						<input type="hidden" name="id" value="@role.Id"/>
+					<form asp-controller="Roles" asp-action="RoleDelete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">
+						<input type="hidden" name="name" value="@role.Name"/>
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
 					</form>
 				</td>

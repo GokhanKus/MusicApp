@@ -39,5 +39,15 @@ namespace MusicApp.Controllers
 			}
 			return View(model);
 		}
+		[HttpPost]
+		public async Task<IActionResult> RoleDelete(string name)
+		{
+			var role = await _roleManager.FindByNameAsync(name);
+			if (role != null)
+			{
+				await _roleManager.DeleteAsync(role);
+			}
+			return RedirectToAction("RoleList");
+		}
 	}
 }

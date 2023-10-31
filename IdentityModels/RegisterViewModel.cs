@@ -21,7 +21,7 @@ namespace MusicApp.IdentityModels
 
         [Required]
         [DataType(DataType.Password)]
-        [Compare(nameof(Password),ErrorMessage = "Passwords do not macth")]
+        [Compare(nameof(Password),ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }
