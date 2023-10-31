@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicApp.Identity;
 
 namespace MusicApp.Controllers
 {
 	public class RolesController : Controller
 	{
+		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;
-        public RolesController(RoleManager<AppRole> roleManager)
+        public RolesController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager)
         {
+			_userManager = userManager;
             _roleManager = roleManager;
         }
-        public IActionResult RoleList()
+        public async Task<IActionResult> RoleList()
 		{
-			var model = _roleManager.Roles;
+			var model = await _roleManager.Roles.ToListAsync();
 			return View(model);
 		}
 

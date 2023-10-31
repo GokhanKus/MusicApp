@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using MusicApp.Identity;
+using MusicApp.IdentityModels;
+
 
 namespace MusicApp.TagHelpers
 {

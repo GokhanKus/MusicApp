@@ -27,7 +27,7 @@
 			<tr>
 				<td>@role.Id</td>
 				<td>@role.Name</td>
-				<td asp-role-users>@role.Id</td> @*buradaki asp-role-users bizim olusturdugumuz ozel tag helper*@
+				 <td asp-role-users="@role.Id"></td> @*buradaki asp-role-users bizim olusturdugumuz ozel tag helper *@
 
 				<td>
 					<a asp-controller="Roles" asp-action="Edit" asp-route-id="@role.Id" class="btn btn-warning btn-sm">Edit</a>
@@ -36,6 +36,11 @@
 						<input type="hidden" name="name" value="@role.Name"/>
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
 					</form>
+
+					 @* <form method="post">
+						<a class="btn btn-warning btn-sm" asp-controller="roles" asp-action="edit" asp-route-id="@role.Id">Edit</a>
+						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>  *@
 				</td>
 			</tr>
 		}	
