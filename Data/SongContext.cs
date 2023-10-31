@@ -5,7 +5,7 @@ using MusicApp.Identity;
 
 namespace MusicApp.Data
 {
-	public class SongContext : IdentityDbContext<AppUser,AppRole,string>
+	public class SongContext : IdentityDbContext<AppUser,AppRole,string> //burası onceden SongContext : DbContext idi biz Identity ozelligini eklemek istedigimiz icin boyle yaptık artık user ve role tablolarımız otomatik olarak gelecek
 	{
 		public SongContext()
 		{

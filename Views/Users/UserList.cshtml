@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AppUser>
+
+<a class="btn btn-primary" asp-controller="Account" asp-action="Register">Register</a>
+<hr />
+
+<table class="table table-sm table-bordered table-hover border-dark">
+
+	<thead>
+
+		<tr>
+			<th style="width:350px">Id</th>
+			<th>Full Name</th>
+			<th>Email Address</th>
+			<th style="width:120px"></th>
+		</tr>
+
+	</thead>
+
+	<tbody>
+
+		@if (Model.Count() == 0)
+		{
+			<tr>
+				<td colspan="4" class="text-center">No Users Found</td>
+			</tr>
+		}
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td>@user.Id</td>
+				<td>@user.FullName</td>
+				<td>@user.Email</td>
+
+				<td>
+					<a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
+
+					@*onsubmit kısmı useri silmek istedigimizde emin misiniz diye sorar*@
+					<form asp-controller="Users" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">	
+						<input type="hidden" name="id" value="@user.Id"/>
+						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+					</form>
+				</td>
+			</tr>
+		}
+	</tbody>
+
+</table>
