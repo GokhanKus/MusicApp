@@ -29,6 +29,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 	options.User.RequireUniqueEmail = true; //aynı mail ile birden fazla kayit olusturulmasin
 	options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+	options.Lockout.MaxFailedAccessAttempts = 5;
+	options.SignIn.RequireConfirmedEmail = true;
 });
 
 //cookie ayarlarını degistirecegimiz yer
