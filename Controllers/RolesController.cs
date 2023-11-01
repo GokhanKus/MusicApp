@@ -9,20 +9,32 @@ namespace MusicApp.Controllers
 	{
 		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;
-        public RolesController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager)
-        {
+		public RolesController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+		{
 			_userManager = userManager;
-            _roleManager = roleManager;
-        }
-        public async Task<IActionResult> RoleList()
+			_roleManager = roleManager;
+		}
+		public async Task<IActionResult> RoleList()
 		{
 			var model = await _roleManager.Roles.ToListAsync();
 			return View(model);
 		}
 
-		public IActionResult RoleCreate()
+		//public IActionResult RoleCreate()
+		//{
+		//	return View();
+		//}
+
+		private IEnumerable<AppRole> GetRoles()
 		{
-			return View();
+			//var model = _roleManager.Roles.Select(r=>new AppRole
+			//{
+			//	Id=r.Id,
+			//	Name=r.Name,
+			//}).ToList();
+			//return model;
+
+			return _roleManager.Roles.ToList();
 		}
 		[HttpPost]
 		public async Task<IActionResult> RoleCreate(AppRole model)
@@ -40,7 +52,7 @@ namespace MusicApp.Controllers
 					ModelState.AddModelError("", err.Description);
 				}
 			}
-			return View(model);
+			return View("RoleList", GetRoles());
 		}
 		[HttpPost]
 		public async Task<IActionResult> RoleDelete(string name)

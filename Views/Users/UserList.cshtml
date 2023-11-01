@@ -35,8 +35,8 @@
 					<a asp-controller="Users" asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
 
 					@*onsubmit kısmı useri silmek istedigimizde emin misiniz diye sorar*@
-					<form asp-controller="Users" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">	
-						<input type="hidden" name="id" value="@user.Id"/>
+					<form asp-controller="Users" asp-action="UserDelete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">
+						<input type="hidden" name="email" value="@user.Email"/>
 						<button type="submit" class="btn btn-danger btn-sm">Delete</button>
 					</form>
 				</td>

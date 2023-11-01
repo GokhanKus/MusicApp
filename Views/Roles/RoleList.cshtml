@@ -1,7 +1,21 @@
 ﻿@model IEnumerable<AppRole>
 
-<a class="btn btn-primary" asp-controller="Roles" asp-action="RoleCreate">Create Role</a>
-<hr />
+
+<form asp-controller="roles" asp-action="rolecreate" method="post">
+	<div asp-validation-summary="All" class="text-danger"></div>
+		<div class="row">
+			<div class="col-md-1">
+				<button type="submit" class="btn btn-primary">Create Role</button>
+			</div>
+			<div class="col-md-11">
+				<div class="mb-3 form-floating">
+					<input asp-for="@Model.First().Name" class="form-control" placeholder="@Model.First().Name" />
+					<label asp-for="@Model.First().Name" class="form-label">Name</label>
+					<span asp-validation-for="@Model.First().Name" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+</form>
 
 <table class="table table-sm table-bordered border-dark">
 

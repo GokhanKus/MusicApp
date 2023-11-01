@@ -12,21 +12,21 @@ namespace MusicApp.Controllers
 	{
 		//Bu Injection islemi de oluyor.
 		//private readonly SongContext _context;
-        //public UsersController(SongContext context)
-        //{
-        //	_context = context;
-        //}
+		//public UsersController(SongContext context)
+		//{
+		//	_context = context;
+		//}
 
 		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;
-		
-        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
-        {
-            _userManager = userManager;
-			_roleManager = roleManager;
-        }
 
-        public IActionResult UserList()
+		public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+		{
+			_userManager = userManager;
+			_roleManager = roleManager;
+		}
+
+		public IActionResult UserList()
 		{
 			var model = _userManager.Users;
 			return View(model);
@@ -34,8 +34,8 @@ namespace MusicApp.Controllers
 
 		public async Task<IActionResult> UserEdit(string id)
 		{
-			if (id == null)	return RedirectToAction("UserList");
-			
+			if (id == null) return RedirectToAction("UserList");
+
 			var user = await _userManager.FindByIdAsync(id);
 
 			if (user != null)
@@ -93,6 +93,25 @@ namespace MusicApp.Controllers
 				}
 			}
 			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UserDelete(string email)
+		{
+			var user = await _userManager.FindByEmailAsync(email);
+			if (user != null)
+			{
+				var result = await _userManager.DeleteAsync(user);
+				if (result.Succeeded)
+				{
+					return RedirectToAction("UserList");
+				}
+				foreach (var err in result.Errors)
+				{
+					ModelState.AddModelError("", err.Description);
+				}
+			}
+			return RedirectToAction("UserList");
 		}
 	}
 }

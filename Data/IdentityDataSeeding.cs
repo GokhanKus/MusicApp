@@ -4,9 +4,10 @@ using MusicApp.Identity;
 
 namespace MusicApp.Data
 {
+	//username: admin, password: Admin_123, Email: gkus1998@gmail.com
 	public static class IdentityDataSeeding
 	{
-		private const string adminUser = "admin";
+		private const string adminUser = "admin1";
 		private const string adminPassword = "Admin_123";
 
 		public static async void Seed(IApplicationBuilder app)
@@ -26,10 +27,10 @@ namespace MusicApp.Data
 			{
 				user = new AppUser
 				{
-					FullName = "Gokhan Kus",
+					FullName = "GokhanKus",
 					UserName = adminUser,
-					Email = "gkus1998@gmail.com",
-					PhoneNumber = "1234567890"
+					Email = "gokhankus98@gmail.com",
+					PhoneNumber = "123456789"
 				};
 				await userManager.CreateAsync(user, adminPassword);
 			}
