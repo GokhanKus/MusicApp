@@ -10,7 +10,7 @@
 			<div class="col-md-11">
 				<div class="mb-3 form-floating">
 					<input asp-for="@Model.First().Name" class="form-control" placeholder="@Model.First().Name" />
-					<label asp-for="@Model.First().Name" class="form-label">Name</label>
+					<label asp-for="@Model.First().Name">Name</label>
 					<span asp-validation-for="@Model.First().Name" class="text-danger"></span>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 				 <td asp-role-users="@role.Id"></td> @*buradaki asp-role-users bizim olusturdugumuz ozel tag helper *@
 
 				<td>
-					<a asp-controller="Roles" asp-action="Edit" asp-route-id="@role.Id" class="btn btn-warning btn-sm">Edit</a>
+					<a asp-controller="Roles" asp-action="RoleEdit" asp-route-id="@role.Id" class="btn btn-warning btn-sm">Edit</a>
 
 					<form asp-controller="Roles" asp-action="RoleDelete" method="post" onsubmit="return confirm('Are you sure?')" style="display:inline-block">
 						<input type="hidden" name="name" value="@role.Name"/>

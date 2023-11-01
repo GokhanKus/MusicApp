@@ -52,7 +52,7 @@ namespace MusicApp.Controllers
 					ModelState.AddModelError("", err.Description);
 				}
 			}
-			return View("RoleList", GetRoles());
+			return View("RoleList",GetRoles());
 		}
 		[HttpPost]
 		public async Task<IActionResult> RoleDelete(string name)
@@ -63,6 +63,46 @@ namespace MusicApp.Controllers
 				await _roleManager.DeleteAsync(role);
 			}
 			return RedirectToAction("RoleList");
+		}
+
+		public async Task<IActionResult> RoleEdit(string id)
+		{
+			var role = await _roleManager.FindByIdAsync(id);
+
+			if (role != null && role.Name != null)
+			{
+				ViewBag.Users = await _userManager.GetUsersInRoleAsync(role.Name);
+				return View(role);
+			}
+			return RedirectToAction("RoleList");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> RoleEdit(AppRole model)
+		{
+			if (ModelState.IsValid)
+			{
+				var role = await _roleManager.FindByIdAsync(model.Id);
+				if (role != null)
+				{
+					role.Name = model.Name;
+
+					var result = await _roleManager.UpdateAsync(role);
+					if (result.Succeeded)
+					{
+						return RedirectToAction("RoleList");
+					}
+					foreach (IdentityError err in result.Errors)
+					{
+						ModelState.AddModelError("", err.Description);
+					}
+					if (role.Name != null)
+					{
+						ViewBag.Users = await _userManager.GetUsersInRoleAsync(role.Name);
+					}
+				}
+			}
+			return View(model);
 		}
 	}
 }
