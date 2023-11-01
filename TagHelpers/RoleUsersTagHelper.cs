@@ -26,8 +26,9 @@ namespace MusicApp.TagHelpers
 			var role = await _roleManager.FindByIdAsync(RoleId);
 
 			if (role != null && role.Name != null)
-			{
-				foreach (var user in _userManager.Users)
+			{	//foreachte in _userManager.Users seklindeydi ve "there is already an open datareader associated with this connection which must be closed first." hatası alıyordum
+				var list = _userManager.Users.ToList(); //boyle yaparak problem çözüldü veya devjson con stringte MultipleActiveResultSets=true yazılabilir.
+				foreach (var user in list) 
 				{
 					if (await _userManager.IsInRoleAsync(user, role.Name)) //almıs oldugumuz userin ilgili role içerisinde olup olmama durumu, rolü var mı?
 					{
