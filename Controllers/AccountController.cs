@@ -32,10 +32,17 @@ namespace MusicApp.Controllers
 					Email = model.Email,
 					FullName = model.FullName,
 				};
-				var result = await _userManager.CreateAsync(user, model.Password);
+				IdentityResult result = await _userManager.CreateAsync(user, model.Password);               //var result = await _userManager.CreateAsync(user, model.Password);
+
 				if (result.Succeeded)
 				{
+					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);   //ilgili user icin bize bir token bilgisi üretsin ve program.cste AddDefaultTokenProvider()
+					var url = Url.Action("ConfirmEmail", "Account", new { user.Id, token });
+					//return RedirectToAction("Login");
+					TempData["message"] = "Please click on the confirmation email in your email account.";
+
 					return RedirectToAction("Login");
+
 				}
 				foreach (IdentityError err in result.Errors) //ilgili hata mesajlarını yazdıralım eğer valid değilse
 				{
@@ -43,6 +50,30 @@ namespace MusicApp.Controllers
 				}
 			}
 			return View(model);
+		}
+
+		public async Task<IActionResult> ConfirmEmail(string id, string token)
+		{
+			if (id == null || token == null)
+			{
+				TempData["message"] = "invalid token";
+				return View();
+			}
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user != null)
+			{
+				var result = await _userManager.ConfirmEmailAsync(user, token);
+				if (result.Succeeded)
+				{
+					TempData["message"] = "Your account has been confirmed";
+					return RedirectToAction("Login");
+				}
+			}
+			else
+				TempData["message"] = "no user found";
+
+			return View();
 		}
 		public IActionResult Login()
 		{
@@ -58,6 +89,13 @@ namespace MusicApp.Controllers
 				if (user != null)
 				{
 					await _signInManager.SignOutAsync();
+
+					if (!await _userManager.IsEmailConfirmedAsync(user)) //e-mail onaylanmadıysa;
+					{
+						ModelState.AddModelError("", "Confirm your account");
+						return View(model);
+					}
+
 					var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
 
 					if (result.Succeeded)
@@ -70,7 +108,7 @@ namespace MusicApp.Controllers
 					{
 						var lockoutDate = await _userManager.GetLockoutEndDateAsync(user);
 						var timeLeft = lockoutDate.Value - DateTime.UtcNow;
-						ModelState.AddModelError("", $"Your account has been locked. Please try {timeLeft.Minutes + 1}minutes later.");
+						ModelState.AddModelError("", $"Your account has been locked. Please try {timeLeft.Minutes + 1} minutes later.");
 					}
 					else
 					{

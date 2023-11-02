@@ -32,7 +32,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
 	options.Lockout.MaxFailedAccessAttempts = 5;
-	//options.SignIn.RequireConfirmedEmail = true; //bu özelliği kapatınca onaylı olmayan hesaplarda result.IsLockedOut çalışıyor?
+	options.SignIn.RequireConfirmedEmail = true; //bu özelliği kapatınca onaylı olmayan hesaplarda result.IsLockedOut çalışıyor?
 });
 
 //cookie ayarlarını degistirecegimiz yer
