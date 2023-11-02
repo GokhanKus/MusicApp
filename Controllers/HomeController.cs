@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicApp.Data;
 using MusicApp.Models;
 using System.Diagnostics;
 
 namespace MusicApp.Controllers
 {
+	[Authorize]
 	public class HomeController : BaseController
 	{
 		//private readonly SongContext _context;
