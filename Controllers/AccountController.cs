@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Identity;
 using MusicApp.IdentityModels;
+using MusicApp.Interfaces;
 
 namespace MusicApp.Controllers
 {
@@ -10,11 +11,13 @@ namespace MusicApp.Controllers
 		private readonly UserManager<AppUser> _userManager;
 		private readonly RoleManager<AppRole> _roleManager;
 		private readonly SignInManager<AppUser> _signInManager;
-		public AccountController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager)
+		private readonly IEmailSender _emailSender;
+		public AccountController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IEmailSender emailSender)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
 			_signInManager = signInManager;
+			_emailSender = emailSender;
 		}
 		public IActionResult Register()
 		{
@@ -38,7 +41,12 @@ namespace MusicApp.Controllers
 				{
 					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);   //ilgili user icin bize bir token bilgisi üretsin ve program.cste AddDefaultTokenProvider()
 					var url = Url.Action("ConfirmEmail", "Account", new { user.Id, token });
-					//return RedirectToAction("Login");
+
+					await _emailSender.SendEmailAsync(user.Email,
+						"Confirm Your E-Mail",
+						$"Confirm your account please click <a href='http://localhost:4570{url}'>here</a> "
+						);
+
 					TempData["message"] = "Please click on the confirmation email in your email account.";
 
 					return RedirectToAction("Login");

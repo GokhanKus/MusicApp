@@ -7,6 +7,7 @@ using MusicApp.Data;
 using Microsoft.AspNetCore.Identity;
 using MusicApp.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MusicApp.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,16 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 	options.SlidingExpiration = true;				//belirtilen sürenin yarısına gelindiğinde sürenin yenilenip yenilenmeyeceğini belirler.
 });
+
+
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>(i => new SmtpEmailSender(
+	builder.Configuration["EmailSender:Host"],
+	builder.Configuration.GetValue<int>("EmailSender:Port"),
+	builder.Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+	builder.Configuration["EmailSender:Username"],
+	builder.Configuration["EmailSender:Password"]
+	));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

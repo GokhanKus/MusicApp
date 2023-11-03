@@ -1,11 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
 
-@if (TempData["message"] != null)
-{
-	<div class="alert alert-warning">
-		@TempData["message"]
-	</div>
-}
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -23,34 +18,52 @@
 	<header>
 		@await Html.PartialAsync("_navbar") @* navbar icin yeni ve bos bir view dosyası olusturmustuk ve onu bu sekilde cagiriyoruz  *@
 		@RenderSection("header",false) @*render section araccılığıyla index.cshtml'de yani sadece anasayfada header (jumbotron) olusturduk.*@
-	</header>
-	<div class="container mt-5">  @*mt-3: genre listesi ve sayfa elemanları biraz asagıda olsun*@
-		<main role="main" class="pb-3">
-		@if (IsSectionDefined("_genrelist"))
-		{
-			<div class="row">
-				<div class="col-md-2">
-						<h2>Genres</h2>
-					@RenderSection("_genrelist",false)
-				</div>
-				<div class="col-md-10">
-					
-						@RenderBody()
-					
-				</div>
-			</div>
-		}
-		else
-		{
-			@*eger bir html sayfasında _genrelist adında bir section tanımlanmadıysa mesela anasayfada yok, o zaman _genrelist kısmı olusmasın ve 12 bölmeli olsun, 2ye10luk degil*@
+
+		<div class="container mt-4">
+			<!-- TempData["message"]'i göstermek için kontrol -->
+			@if (TempData["message"] != null)
 			{
 				<div class="row">
-					<div class="col-md-12">
-						@RenderBody()
+					<div class="col-lg-12">
+						<div class="alert alert-warning">
+							@TempData["message"]
+						</div>
 					</div>
 				</div>
 			}
-		}
+
+			<!-- Diğer sayfa içeriği burada yer alır -->
+		</div>
+		
+	</header>
+	<div class="container mt-5">
+		@*mt-3: genre listesi ve sayfa elemanları biraz asagıda olsun*@
+		<main role="main" class="pb-3">
+			@if (IsSectionDefined("_genrelist"))
+			{
+				<div class="row">
+					<div class="col-md-2">
+						<h2>Genres</h2>
+						@RenderSection("_genrelist",false)
+					</div>
+					<div class="col-md-10">
+
+						@RenderBody()
+
+					</div>
+				</div>
+			}
+			else
+			{
+				@*eger bir html sayfasında _genrelist adında bir section tanımlanmadıysa mesela anasayfada yok, o zaman _genrelist kısmı olusmasın ve 12 bölmeli olsun, 2ye10luk degil*@
+				{
+					<div class="row">
+						<div class="col-md-12">
+							@RenderBody()
+						</div>
+					</div>
+				}
+			}
 		</main>
 	</div>
 
