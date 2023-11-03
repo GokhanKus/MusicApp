@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using MusicApp.Identity;
 using MusicApp.IdentityModels;
 using MusicApp.Interfaces;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MusicApp.Controllers
 {
@@ -135,7 +137,73 @@ namespace MusicApp.Controllers
 			await _signInManager.SignOutAsync(); //application altındaki cookienin silinmesi?
 			return RedirectToAction("Index", "Home");
 		}
-	}
+		public IActionResult AccessDenied()
+		{
+			return View();
+		}
+		public IActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ForgotPassword(string email)
+		{
+			if (string.IsNullOrEmpty(email))
+			{
+				TempData["message"] = "Enter your e-mail address";
+				return View();
+			}
+			var user = await _userManager.FindByEmailAsync(email);
+			if (user == null)
+			{
+				TempData["message"] = "no users found with this e-mail";
+				return View();
+			}
+			var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+			var url = Url.Action("ResetPassword", "Account", new { user.Id, token });
+
+			await _emailSender.SendEmailAsync(email, "Reset Password", $"Reset your password click <a href='http://localhost:4570{url}'>here</a>");
+
+			TempData["message"] = "You can reset your password using the link sent to your email address.";
+			return View();
+        }
+        public IActionResult ResetPassword(string id, string token)
+        {
+            if (id == null || token == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var model = new ResetPasswordModel { Token = token };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    TempData["message"] = "Bu mail adresiyle eslesen bir kullanici yok";
+                    return RedirectToAction("Login");
+                }
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Sifrenizi degistirildi";
+                    return RedirectToAction("Login");
+                }
+                foreach (IdentityError err in result.Errors)
+                {
+                    ModelState.AddModelError("", err.Description);
+                }
+            }
+            return View();
+        }
+    }
 }
 
 /*Authentication	temel olarak 3 farklı kimlik doğrulama yöntemi vardır;
