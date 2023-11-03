@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using MusicApp.IdentityModels;
 
 namespace MusicApp.Controllers
 {
+	[Authorize(Roles = "Admin")] //admin rolünde olmayan kullanicilar bu controller altındaki sayfaya giremesin mesela member rolündeki veya rolü olmayan kullanicilar giremeyecek
+	//onlar program.cste tanimladigimiz AccessDeniedPath = accessdenied olan sayfaya yonlendirilecek
 	public class UsersController : Controller
 	{
 		//Bu Injection islemi de oluyor.
@@ -26,12 +29,14 @@ namespace MusicApp.Controllers
 			_roleManager = roleManager;
 		}
 
+		//[Authorize(Roles = "admin")] bunu yukarıda tanımlamak yerine örn sadece burada tanımlarsak sadece bu kısma admin rolündeki kisiler girebilir.
 		public IActionResult UserList()
 		{
 			var model = _userManager.Users;
 			return View(model);
 		}
 
+		//[AllowAnonymous] //ya da bunu diyerek admine ait olan sayfada sadece ilgili parta giris izni verilebilir.
 		public async Task<IActionResult> UserEdit(string id)
 		{
 			if (id == null) return RedirectToAction("UserList");

@@ -130,6 +130,11 @@ namespace MusicApp.Controllers
 			}
 			return View(model);
 		}
+		public async Task<IActionResult> Logout()
+		{
+			await _signInManager.SignOutAsync(); //application altındaki cookienin silinmesi?
+			return RedirectToAction("Index", "Home");
+		}
 	}
 }
 

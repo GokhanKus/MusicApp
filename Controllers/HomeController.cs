@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace MusicApp.Controllers
 {
-	[Authorize]
+	
 	public class HomeController : BaseController
 	{
 		//private readonly SongContext _context;

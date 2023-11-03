@@ -40,26 +40,41 @@
 
 					</ul>
 				</li>
-
-				<li class="nav-item">
-					<a class="nav-link" asp-controller="Users" asp-action="UserList">Users</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" asp-controller="Roles" asp-action="RoleList">Roles</a>
-				</li>
+				@*admin rolünde olan kisiler bu linkleri görebilsin, ancak yine de admin olmayanlar ilgili url'ye tıklarsa o sayfaya erişebilir bunun icin Controllerlarda Authorize(Roles="Admin") yazabiliriz. metoduna bak*@
+				@if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin")) //user dogrulanmıssa ve admin rolünde ise
+				{
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Users" asp-action="UserList">Users</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Roles" asp-action="RoleList">Roles</a>
+					</li>
+				}
 
 			</ul>
 
 			<ul class="navbar-nav ms-auto">
 				@*saga dogru yanastirdik.*@
+				@if (User.Identity?.IsAuthenticated == true) //user e-postasını dogrulayıp kayıt olmussa
+				{
+					<li class="nav-item">
+						<a class="nav-link">Merhaba @User.Identity.Name</a>
+					</li>
 
-				<li class="nav-item">
-					<a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-				</li>
+					<li>
+						<a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+					</li>
+				}
+				else
+				{
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+					</li>
 
-				<li class="nav-item">
-					<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-				</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+					</li>
+				}
 
 			</ul>
 

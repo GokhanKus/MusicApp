@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using MusicApp.Data;
@@ -11,6 +12,7 @@ using static System.Net.WebRequestMethods;
 
 namespace MusicApp.Controllers
 {
+	[Authorize(Roles = "Admin")] //admin rolünde olmayan kullanicilar bu controller altındaki sayfaya giremesin
 	public class AdminController : BaseController
 	{
 		//private readonly SongContext _context;

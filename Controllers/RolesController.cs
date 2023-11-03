@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicApp.Identity;
 
 namespace MusicApp.Controllers
 {
+	[Authorize(Roles = "Admin")] //admin rolünde olmayan kullanicilar bu controller altındaki sayfaya giremesin
 	public class RolesController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;
