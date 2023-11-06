@@ -29,7 +29,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 	options.Password.RequiredLength = 6;            //min 6 karakter
 
 	options.User.RequireUniqueEmail = true; //aynı mail ile birden fazla kayit olusturulmasin
-	options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+	options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
 	options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
 	options.Lockout.MaxFailedAccessAttempts = 5;
