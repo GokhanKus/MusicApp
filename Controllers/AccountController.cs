@@ -161,20 +161,23 @@ namespace MusicApp.Controllers
 				return View();
 			}
 			var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-			var url = Url.Action("ResetPassword", "Account", new { user.Id, token });
+			var url = Url.Action("ResetPassword", "Account", new { user.Id, token, email});
 
-			await _emailSender.SendEmailAsync(email, "Reset Password", $"Reset your password click <a href='http://localhost:4570{url}'>here</a>");
+			await _emailSender.SendEmailAsync(
+				email, "Reset Password", 
+				$"Reset your password click <a href='http://localhost:4570{url}'>here</a>");
 
-			TempData["message"] = "You can reset your password using the link sent to your email address.";
+			TempData["message"] = 
+				"You can reset your password using the link sent to your email address.";
 			return View();
         }
-        public IActionResult ResetPassword(string id, string token)
+        public IActionResult ResetPassword(string id, string token,string email)
         {
             if (id == null || token == null)
             {
                 return RedirectToAction("Login");
             }
-            var model = new ResetPasswordModel { Token = token };
+            var model = new ResetPasswordModel { Token = token, Email = email };
             return View(model);
         }
 
@@ -186,14 +189,14 @@ namespace MusicApp.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    TempData["message"] = "Bu mail adresiyle eslesen bir kullanici yok";
+                    TempData["message"] = "No users found with this e-mail";
                     return RedirectToAction("Login");
                 }
                 var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
 
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Sifrenizi degistirildi";
+                    TempData["message"] = "Your password has been changed";
                     return RedirectToAction("Login");
                 }
                 foreach (IdentityError err in result.Errors)
