@@ -21,6 +21,8 @@ namespace MusicApp.Controllers
 			_signInManager = signInManager;
 			_emailSender = emailSender;
 		}
+
+		//IEmailSender _emailSender = new SmtpEmailSender();
 		public IActionResult Register()
 		{
 			return View();

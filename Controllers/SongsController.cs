@@ -19,10 +19,8 @@ namespace MusicApp.Controllers
 		{
 			return View();
 		}
-		public IActionResult List(int? id, string q)                    //id türleri q ise aranan kelimeyi temsil eder. id kısmında türe göre q kısmında aranan kelimeye göre filtreler
+		public IActionResult List(int? id)                    //id türleri q ise aranan kelimeyi temsil eder. id kısmında türe göre q kısmında aranan kelimeye göre filtreler
 		{
-			var searchingWord = q;                                      //buraya şarkı, şarkıcı ararken yazılan kelime gelir (model binding)
-
 			var songs = _context.Songs.AsQueryable();
 
 			if (id != null)                                             //burası şarkı türüne göre filtreleme yapacak
@@ -31,19 +29,31 @@ namespace MusicApp.Controllers
 					.Include(s => s.Genres)
 					.Where(s => s.Genres.Any(g => g.GenreId == id));
 			}
-			if (!string.IsNullOrEmpty(q))                               //burası aranan kelimeye göre filtreleme yapacak
-			{
-				songs = songs
-					.Include(s => s.Artists)
-					.Where(s => s.SongName.Contains(q) ||
-					s.Artists.Any(a => a.ArtistName.Contains(q)));
-			}
+			
 			var model = new SongsViewModel
 			{
 				Songs = songs.ToList()
 			};
 
-			return View("Songs", model);                                    //bu sekilde yaparsak List.cshtml adında dosya olusturmak yerine Songs.cshtml dosyası olusturabiliriz.
+			return View("Songs", model);                                    //bu sekilde yaparsak List.cshtml adında dosya olusturmak yerine Songs.cshtml dosyasına yonlendirebiliriz.
+		}
+		public IActionResult Searching(string q)
+		{
+			var songs = _context.Songs.AsQueryable();
+
+			if (!string.IsNullOrEmpty(q))
+			{
+				songs = songs
+					.Include(s=>s.Artists)
+					.Where(s=>s.SongName.Contains(q)||
+					s.Artists.Any(a=>a.ArtistName.Contains(q)));
+			}
+			var model = new SongsViewModel
+			{
+				Songs = songs.ToList() 
+			};
+			return View("Songs", model);
+
 		}
 		public IActionResult Details(int id)
 		{
