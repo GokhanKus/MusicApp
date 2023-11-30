@@ -37,3 +37,33 @@ img {
 .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
     display: block;
 }
+
+/* Sayfalama butonlarýný geniþletme */
+.pagination-container .pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Aktif sayfa butonunu vurgula */
+.pagination-container .pagination .active {
+    background-color: #007bff;
+    color: white;
+
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* Sayfalama butonlarýna hover efekti ekleme */
+.pagination-container .pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}

@@ -1,6 +1,8 @@
-﻿@model HomePageViewModel
+﻿@using X.PagedList.Mvc.Core
+
+@model X.PagedList.IPagedList<Song>
 @section header
-	{
+{
 	@await Html.PartialAsync("_header")
 }
 <h1>Song List</h1>
@@ -8,11 +10,15 @@
 
 <div id="songs">
 	<div class="row row-cols-1 row-cols-md-4 g-4">
-			@foreach (var song in Model.PopularSongs)
-			{
-				@await Html.PartialAsync("_song",song)
-			}
+		@foreach (var song in Model)
+		{
+			@await Html.PartialAsync("_song", song)
+		}
 	</div>
+</div>
+
+<div class="pagination justify-content-center">
+	@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
 
 
