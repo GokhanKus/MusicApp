@@ -362,8 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# appsettings.json dosyasını ekleyin
 appsettings.json
 
-# appsettings.json dosyasını ekleyin
 appsettings.Development.json
+
+wwwroot/img/*
