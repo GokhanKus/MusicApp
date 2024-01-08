@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 using MusicApp.Data;
 using MusicApp.Entity;
 using MusicApp.Models;
@@ -22,13 +23,24 @@ namespace MusicApp.Controllers
 		{
 			//	var songs = _context.Songs.ToList();
 			//	IPagedList<Song> pagedSongs = songs.ToPagedList(page, 10);
+			var PopularSongs = _context.Songs.ToList();
 			var model = new HomePageViewModel
 			{
-				PopularSongs = _context.Songs.ToList()
-			};
-			IPagedList<Song> pagedList = model.PopularSongs.ToPagedList(page, 4);// 1.sayfadan baslasin ve 4 item gostersin
 
-			return View(pagedList);
+				PopularSongs = PopularSongs.ToPagedList(page, 4),
+
+				
+
+
+			};
+
+
+
+			/*IPagedList<Song> pagedList = model.PopularSongs.ToPagedList(page, 4);*/// 1.sayfadan baslasin ve 4 item gostersin
+
+
+
+			return View(model);
 		}
 
 		public IActionResult Privacy()

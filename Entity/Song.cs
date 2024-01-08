@@ -13,7 +13,7 @@
         public int SongId { get; set; }
         public string SongName { get; set; }
         public string? Description { get; set; }
-        public string? ImageUrl { get; set; }
+        public string? ImageUrl { get; set; } 
         public string? Language { get; set; }
         public List<Genre> Genres { get; set; } //many to many relation with Genre
         public List<Album> Albums { get; set; } //many to many relation with Album ( burada one to many de yapılabilir )
